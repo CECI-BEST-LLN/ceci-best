@@ -1,71 +1,73 @@
-import type { CSSProperties } from 'react'
 import { Link } from 'react-router'
-import EventCard from '../components/EventCard.tsx'
-import { BriefcaseIcon, GlobeIcon, SparkIcon, TrophyIcon, ArrowRightIcon } from '../components/Icons.tsx'
-import { events, splitEvents } from '../data/events.ts'
+import { ArrowRightIcon } from '../components/Icons.tsx'
+import { partners } from '../data/partners.ts'
+import { asset } from '../utils.ts'
+import pages from './Pages.module.css'
 import styles from './Home.module.css'
 
-// TODO: placeholder numbers — check the official BEST figures.
 const stats = [
-  { value: '80+', label: 'Universities' },
-  { value: '30+', label: 'Countries' },
-  { value: '3,000+', label: 'Members' },
-  { value: '1989', label: 'Since' },
+  { value: '1989', label: 'Founded' },
+  { value: '85', label: 'Local BEST Groups' },
+  { value: '30', label: 'Countries' },
+  { value: '3', label: 'Flagship events in LLN' },
 ]
 
-const pillars = [
+const activities = [
   {
-    icon: GlobeIcon,
+    logo: 'images/ec-logo.png',
+    title: 'Engineering Challenge',
+    text: 'Students solve an actual challenge proposed by a company — in teams, in one day, in front of a professional jury.',
+    to: '/challenge',
+    cta: 'About EC',
+  },
+  {
+    logo: 'images/best-courses-logo.png',
     title: 'BEST Courses',
-    text: 'Week-long academic courses across Europe, combining technology, culture and new friendships.',
+    text: 'Short courses all across Europe that students from Louvain-la-Neuve can join — and our own summer course in LLN.',
+    to: '/summer-course',
+    cta: 'About BCS',
   },
   {
-    icon: TrophyIcon,
-    title: 'Engineering Competitions',
-    text: 'EBEC challenges students to solve real problems in teams — from local rounds to the European final.',
-  },
-  {
-    icon: BriefcaseIcon,
-    title: 'Career Development',
-    text: 'Workshops, company visits and events that connect students with industry partners.',
-  },
-  {
-    icon: SparkIcon,
-    title: 'Personal Growth',
-    text: 'Organise events, lead projects and gain soft skills by joining our local team.',
+    logo: 'images/hackathon-logo.png',
+    title: 'Hackathon',
+    text: 'A 24-hour coding competition organised by BEST Louvain-la-Neuve, with companies, mentors and prizes.',
+    to: '/hackathon',
+    cta: 'About Hackathon',
   },
 ]
 
 export default function Home() {
-  const { upcoming } = splitEvents(events)
-
   return (
     <>
       {/* ---------- Hero ---------- */}
       <section className={styles.hero}>
         <div className={styles.glow} aria-hidden="true" />
         <div className={`container ${styles.heroInner}`}>
-          <div className="fade-up">
+          <div className={`${styles.heroText} fade-up`}>
             <span className={styles.badge}>Board of European Students of Technology</span>
             <h1>
-              Engineering students, <span className={styles.highlight}>connected</span> across Europe.
+              BEST <span className={styles.highlight}>Louvain-la-Neuve</span>
             </h1>
             <p className={styles.heroLead}>
-              BEST Louvain-la-Neuve is the UCLouvain group of a student network spanning 80+
-              technology universities. We organise courses, competitions and career events that go
-              beyond the classroom.
+              The local BEST group at UCLouvain. We organise engineering competitions, hackathons and
+              international courses that bring students, universities and companies together.
             </p>
             <div className={styles.actions}>
-              <Link to="/events" className="btn btn--accent">
-                See our events <ArrowRightIcon width={18} height={18} />
-              </Link>
-              <Link to="/about" className="btn btn--ghost">
-                Discover BEST
+              <a href="#activities" className="btn btn--accent">
+                Our activities <ArrowRightIcon width={18} height={18} />
+              </a>
+              <Link to="/best" className="btn btn--ghost">
+                What is BEST?
               </Link>
             </div>
           </div>
+          <div className={`${styles.heroMark} fade-up`} style={{ animationDelay: '120ms' }} aria-hidden="true">
+            <img src={asset('images/best-mark.png')} alt="" />
+          </div>
+        </div>
 
-          <dl className={`${styles.stats} fade-up`} style={{ animationDelay: '120ms' }}>
+        <div className="container">
+          <dl className={`${styles.stats} fade-up`} style={{ animationDelay: '200ms' }}>
             {stats.map((s) => (
               <div key={s.label} className={styles.stat}>
                 <dt>{s.label}</dt>
@@ -76,76 +78,100 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---------- What we do ---------- */}
-      <section className="section">
+      {/* ---------- Main activities ---------- */}
+      <section className="section" id="activities">
         <div className="container">
           <div className="section__head section__head--center">
-            <span className="eyebrow">What we do</span>
-            <h2>More than an engineering degree</h2>
-            <p className="lead">
-              We help students become more internationally minded through four main activities.
-            </p>
+            <span className="eyebrow">Main activities</span>
+            <h2>What we organise</h2>
+            <p className="lead">Three flagship projects, run by students for students.</p>
           </div>
 
-          <div className="grid" style={{ '--min': '240px' } as CSSProperties}>
-            {pillars.map(({ icon: Icon, title, text }) => (
-              <article key={title} className="card">
-                <div className="icon-badge">
-                  <Icon />
+          <div className={styles.activities}>
+            {activities.map((a) => (
+              <Link key={a.to} to={a.to} className={`card ${styles.activity}`}>
+                <div className={styles.activityLogo}>
+                  <img src={asset(a.logo)} alt={a.title} loading="lazy" />
                 </div>
-                <h3>{title}</h3>
-                <p>{text}</p>
-              </article>
+                <h3>{a.title}</h3>
+                <p>{a.text}</p>
+                <span className={styles.more}>
+                  {a.cta} <ArrowRightIcon />
+                </span>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ---------- Upcoming events ---------- */}
+      {/* ---------- What is BEST ---------- */}
       <section className="section section--alt">
-        <div className="container">
-          <div className={styles.rowHead}>
-            <div className="section__head" style={{ marginBottom: 0 }}>
-              <span className="eyebrow">Agenda</span>
-              <h2>Upcoming events</h2>
+        <div className={`container ${pages.split}`}>
+          <div>
+            <span className="eyebrow">What is BEST?</span>
+            <h2>A European network of technology students</h2>
+            <div className={pages.prose}>
+              <p>
+                BEST is a non-profit, non-political organisation running since <strong>1989</strong>.
+                With <strong>85 Local BEST Groups in 30 countries</strong>, it creates opportunities
+                for European students to communicate, cooperate and exchange.
+              </p>
             </div>
-            <Link to="/events" className={styles.allLink}>
-              All events <ArrowRightIcon width={18} height={18} />
-            </Link>
+            <div className={pages.actions}>
+              <Link to="/best" className="btn btn--primary">
+                More about BEST
+              </Link>
+            </div>
           </div>
-
-          {upcoming.length > 0 ? (
-            <div className="grid" style={{ '--min': '420px' } as CSSProperties}>
-              {upcoming.slice(0, 4).map((e) => (
-                <EventCard key={e.id} event={e} />
-              ))}
-            </div>
-          ) : (
-            <p className="lead">New events are coming soon — stay tuned!</p>
-          )}
+          <div className={styles.markPanel}>
+            <img src={asset('images/logo-best-lln.png')} alt="BEST Louvain-la-Neuve logo" loading="lazy" />
+          </div>
         </div>
       </section>
 
-      {/* ---------- CTA ---------- */}
+      {/* ---------- Partners ---------- */}
       <section className="section">
         <div className="container">
-          <div className={styles.cta}>
-            <div>
-              <h2>Want to work with us?</h2>
+          <div className={styles.rowHead}>
+            <div className="section__head" style={{ marginBottom: 0 }}>
+              <span className="eyebrow">Partners</span>
+              <h2>They support us</h2>
+            </div>
+            <Link to="/partners" className={styles.allLink}>
+              More about our partners <ArrowRightIcon width={18} height={18} />
+            </Link>
+          </div>
+          <div className={pages.logos}>
+            {partners.map((p) => (
+              <a key={p.id} href={p.url} target="_blank" rel="noreferrer" className={pages.logoTile}>
+                <img src={asset(p.logo)} alt={p.name} loading="lazy" />
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- Louvain-la-Neuve ---------- */}
+      <section className="section section--alt">
+        <div className={`container ${pages.split} ${pages.splitReverse}`}>
+          <div>
+            <span className="eyebrow">Louvain-la-Neuve?</span>
+            <h2>A city built around its university</h2>
+            <div className={pages.prose}>
               <p>
-                Reach motivated engineering students from UCLouvain and all over Europe. Let's
-                build something together.
+                Louvain-la-Neuve is a town in French-speaking Belgium, about 30 km south-east of
+                Brussels. It was built in the 1960s, after the Catholic University of Leuven split in
+                two — its name literally means “the new Leuven”. Today it is home to more than 19,000
+                inhabitants.
               </p>
             </div>
-            <div className={styles.actions}>
-              <Link to="/partners" className="btn btn--accent">
-                Become a partner
-              </Link>
-              <Link to="/contact" className="btn btn--ghost">
-                Get in touch
+            <div className={pages.actions}>
+              <Link to="/louvain-la-neuve" className="btn btn--primary">
+                Learn more about the city
               </Link>
             </div>
           </div>
+          <img className={pages.photo} src={asset('images/lln-grand-place.webp')} alt="Grand-Place of Louvain-la-Neuve" loading="lazy" />
         </div>
       </section>
     </>

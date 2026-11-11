@@ -1,13 +1,18 @@
 import { useEffect, useState } from 'react'
-import { Link, NavLink } from 'react-router'
-import { navLinks } from '../data/site.ts'
+import { Link, NavLink, useLocation } from 'react-router'
+import { navItems, type NavItem } from '../data/site.ts'
+import { ChevronDownIcon } from './Icons.tsx'
 import Logo from './Logo.tsx'
 import styles from './Header.module.css'
 
 export default function Header() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const close = () => setOpen(false)
+  const close = () => {
+    setOpen(false)
+    // Drop focus so hover/focus-driven dropdowns close after a click.
+    ;(document.activeElement as HTMLElement | null)?.blur()
+  }
 
   // Add a shadow once the page is scrolled.
   useEffect(() => {
@@ -21,7 +26,7 @@ export default function Header() {
     <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
       <div className={`container ${styles.inner}`}>
         <Link to="/" onClick={close} className={styles.brand} aria-label="BEST Louvain-la-Neuve — home">
-          <Logo />
+          <Logo height={46} />
         </Link>
 
         <button
@@ -36,25 +41,55 @@ export default function Header() {
           <span />
         </button>
 
-        <nav id="main-nav" className={`${styles.nav} ${open ? styles.open : ''}`}>
-          <ul>
-            {navLinks.map((link) => (
-              <li key={link.to}>
-                <NavLink
-                  onClick={close}
-                  to={link.to}
-                  className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ''}`}
-                >
-                  {link.label}
-                </NavLink>
+        <nav id="main-nav" className={`${styles.nav} ${open ? styles.open : ''}`} aria-label="Main">
+          <ul className={styles.menu}>
+            {navItems.map((item) => (
+              <li key={item.label} className={item.children ? styles.hasDropdown : undefined}>
+                {item.children ? (
+                  <Dropdown item={item} onNavigate={close} />
+                ) : (
+                  <NavLink
+                    to={item.to!}
+                    onClick={close}
+                    className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ''}`}
+                  >
+                    {item.label}
+                  </NavLink>
+                )}
               </li>
             ))}
           </ul>
-          <Link to="/contact" onClick={close} className="btn btn--primary">
-            Contact us
-          </Link>
         </nav>
       </div>
     </header>
+  )
+}
+
+function Dropdown({ item, onNavigate }: { item: NavItem; onNavigate: () => void }) {
+  const { pathname } = useLocation()
+  const children = item.children ?? []
+  const isActive = children.some((c) => pathname === c.to || pathname.startsWith(`${c.to}/`))
+
+  return (
+    <>
+      <button type="button" className={`${styles.link} ${isActive ? styles.active : ''}`} aria-haspopup="true">
+        {item.label}
+        <ChevronDownIcon className={styles.chevron} />
+      </button>
+      <ul className={styles.dropdown}>
+        {children.map((c) => (
+          <li key={c.to}>
+            <NavLink
+              to={c.to}
+              end
+              onClick={onNavigate}
+              className={({ isActive }) => `${styles.dropLink} ${isActive ? styles.dropActive : ''}`}
+            >
+              {c.label}
+            </NavLink>
+          </li>
+        ))}
+      </ul>
+    </>
   )
 }

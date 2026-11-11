@@ -1,30 +1,90 @@
 .footer {
   background: var(--c-primary-darker);
-  color: rgb(255 255 255 / 0.72);
+  color: rgb(255 255 255 / 0.7);
   padding-top: 4.5rem;
   font-size: 0.95rem;
+  position: relative;
+}
+
+/* BEST tricolor strip */
+.footer::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 4px;
+  background: linear-gradient(90deg, var(--c-green) 0 33.3%, var(--c-accent) 33.3% 66.6%, var(--c-primary) 66.6%);
 }
 
 .grid {
   display: grid;
-  grid-template-columns: 1.6fr repeat(3, 1fr);
-  gap: 2.5rem;
-  padding-bottom: 3.5rem;
+  grid-template-columns: 1.8fr repeat(4, minmax(0, 1fr));
+  gap: 2rem;
+  padding-bottom: 3rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #fff;
+}
+
+.brand span {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  font-size: 0.85rem;
+  color: rgb(255 255 255 / 0.7);
+}
+
+.brand strong {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  letter-spacing: 0.04em;
+  color: #fff;
 }
 
 .about p {
-  margin-top: 1.25rem;
+  margin: 1.25rem 0 1.5rem;
   max-width: 34ch;
+}
+
+.socials {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.socials a {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.08);
+  color: #fff;
+  transition:
+    background-color 0.2s,
+    transform 0.2s var(--ease);
+}
+
+.socials a:hover {
+  background: var(--c-primary);
+  transform: translateY(-2px);
+}
+
+.socials svg {
+  width: 1.15rem;
+  height: 1.15rem;
 }
 
 .footer h4 {
   font-family: var(--font-body);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: #fff;
-  margin-bottom: 1.1rem;
+  margin-bottom: 1rem;
 }
 
 .footer ul {
@@ -32,7 +92,7 @@
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 0.6rem;
+  gap: 0.55rem;
 }
 
 .footer a {
@@ -41,7 +101,32 @@
   transition: color 0.2s;
 }
 
-.footer a:hover {
+.footer ul a:hover {
+  color: var(--c-accent);
+}
+
+.contact {
+  padding-bottom: 2rem;
+}
+
+.mail {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 999px;
+  border: 1px solid rgb(255 255 255 / 0.15);
+  color: #fff !important;
+  font-weight: 500;
+}
+
+.mail:hover {
+  border-color: var(--c-accent);
+}
+
+.mail svg {
+  width: 1.2rem;
+  height: 1.2rem;
   color: var(--c-accent);
 }
 
@@ -56,17 +141,17 @@
   color: rgb(255 255 255 / 0.5);
 }
 
-@media (max-width: 860px) {
+@media (max-width: 1100px) {
   .grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
   }
   .about {
     grid-column: 1 / -1;
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 560px) {
   .grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 }

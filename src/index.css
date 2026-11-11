@@ -2,12 +2,16 @@
    Design tokens — change colors / fonts / spacing here
    ========================================================================== */
 :root {
-  --c-primary: #1652c4;
-  --c-primary-dark: #0b2a5b;
-  --c-primary-darker: #071a3a;
-  --c-primary-soft: #eaf1ff;
-  --c-accent: #ffb020;
-  --c-accent-soft: #fff4dc;
+  /* BEST brand colors (from the logo) */
+  --c-primary: #0f6cb6;
+  --c-primary-dark: #0a4c86;
+  --c-primary-darker: #062b4d;
+  --c-primary-soft: #e7f1fa;
+  --c-accent: #f7a823;
+  --c-accent-dark: #a86a00;
+  --c-accent-soft: #fff3dc;
+  --c-green: #78bc2b;
+  --c-green-soft: #eef7e3;
 
   --c-text: #0f172a;
   --c-muted: #526079;
@@ -27,7 +31,7 @@
   --shadow-lg: 0 24px 48px -12px rgb(11 42 91 / 0.25);
 
   --container: 1160px;
-  --header-h: 72px;
+  --header-h: 76px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -202,7 +206,7 @@ img {
 .btn--primary {
   background: var(--c-primary);
   color: #fff;
-  box-shadow: 0 8px 20px -6px rgb(22 82 196 / 0.55);
+  box-shadow: 0 8px 20px -6px rgb(15 108 182 / 0.55);
 }
 .btn--primary:hover {
   background: var(--c-primary-dark);
@@ -211,10 +215,10 @@ img {
 .btn--accent {
   background: var(--c-accent);
   color: var(--c-primary-darker);
-  box-shadow: 0 8px 20px -6px rgb(255 176 32 / 0.6);
+  box-shadow: 0 8px 20px -6px rgb(247 168 35 / 0.6);
 }
 .btn--accent:hover {
-  background: #ffc14d;
+  background: #ffb940;
 }
 
 .btn--ghost {

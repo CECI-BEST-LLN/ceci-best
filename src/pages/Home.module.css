@@ -2,11 +2,10 @@
 .hero {
   position: relative;
   overflow: hidden;
-  padding-top: clamp(4rem, 10vw, 8rem);
-  padding-bottom: clamp(4rem, 8vw, 6rem);
+  padding-top: clamp(4rem, 9vw, 7rem);
+  padding-bottom: clamp(3rem, 6vw, 4.5rem);
   color: #fff;
-  background:
-    linear-gradient(160deg, var(--c-primary-darker) 0%, var(--c-primary-dark) 45%, var(--c-primary) 100%);
+  background: linear-gradient(160deg, var(--c-primary-darker) 0%, var(--c-primary-dark) 50%, var(--c-primary) 100%);
   isolation: isolate;
 }
 
@@ -28,27 +27,28 @@
   z-index: -1;
   width: 42rem;
   height: 42rem;
-  right: -12rem;
+  right: -10rem;
   top: -14rem;
   border-radius: 50%;
-  background: radial-gradient(circle, rgb(255 176 32 / 0.35), transparent 65%);
+  background: radial-gradient(circle, rgb(247 168 35 / 0.3), transparent 65%);
   filter: blur(20px);
 }
 
 .heroInner {
   display: grid;
-  gap: 3.5rem;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 3rem;
+  align-items: center;
 }
 
 .hero h1 {
   color: #fff;
-  max-width: 16ch;
+  font-size: clamp(2.6rem, 5.5vw + 1rem, 4.75rem);
 }
 
 .highlight {
-  position: relative;
+  display: block;
   color: var(--c-accent);
-  white-space: nowrap;
 }
 
 .badge {
@@ -64,9 +64,9 @@
 }
 
 .heroLead {
-  max-width: 58ch;
+  max-width: 56ch;
   font-size: 1.2rem;
-  color: rgb(255 255 255 / 0.8);
+  color: rgb(255 255 255 / 0.82);
   margin-bottom: 2.25rem;
 }
 
@@ -76,10 +76,34 @@
   gap: 0.9rem;
 }
 
+.heroMark {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(255 255 255 / 0.22) 0%, rgb(255 255 255 / 0.06) 45%, transparent 70%);
+}
+
+.heroMark img {
+  width: min(100%, 340px);
+  filter: drop-shadow(0 30px 40px rgb(0 0 0 / 0.35));
+  animation: float 8s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(4deg);
+  }
+}
+
 .stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  margin: 0;
+  margin: clamp(3rem, 6vw, 4.5rem) 0 0;
   border-radius: var(--radius);
   background: rgb(255 255 255 / 0.07);
   border: 1px solid rgb(255 255 255 / 0.14);
@@ -111,6 +135,15 @@
   color: rgb(255 255 255 / 0.65);
 }
 
+@media (max-width: 860px) {
+  .heroInner {
+    grid-template-columns: 1fr;
+  }
+  .heroMark {
+    display: none;
+  }
+}
+
 @media (max-width: 720px) {
   .stats {
     grid-template-columns: repeat(2, 1fr);
@@ -123,7 +156,96 @@
   }
 }
 
-/* ---------- Events row ---------- */
+/* ---------- Activities ---------- */
+.activities {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+}
+
+.activity {
+  display: flex;
+  flex-direction: column;
+  color: var(--c-text);
+  text-decoration: none;
+  padding: 0;
+  overflow: hidden;
+}
+
+.activity h3,
+.activity p,
+.activity .more {
+  padding-inline: 1.75rem;
+}
+
+.activity h3 {
+  margin-top: 1.5rem;
+}
+
+.activity p {
+  color: var(--c-muted);
+}
+
+.activityLogo {
+  display: grid;
+  place-items: center;
+  height: 170px;
+  padding: 2rem;
+  background: var(--c-surface);
+  border-bottom: 1px solid var(--c-border);
+}
+
+.activityLogo img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  transition: transform 0.4s var(--ease);
+}
+
+.activity:hover .activityLogo img {
+  transform: scale(1.05);
+}
+
+.more {
+  margin-top: auto;
+  padding-bottom: 1.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  color: var(--c-primary);
+}
+
+.more svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  transition: transform 0.2s var(--ease);
+}
+
+.activity:hover .more svg {
+  transform: translateX(4px);
+}
+
+/* ---------- What is BEST ---------- */
+.markPanel {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 3;
+  padding: 3rem;
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(18rem 12rem at 85% 15%, rgb(247 168 35 / 0.18), transparent 70%),
+    radial-gradient(18rem 12rem at 10% 90%, rgb(120 188 43 / 0.18), transparent 70%),
+    var(--c-bg);
+  border: 1px solid var(--c-border);
+  box-shadow: var(--shadow-md);
+}
+
+.markPanel img {
+  width: min(100%, 360px);
+}
+
+/* ---------- Partners row ---------- */
 .rowHead {
   display: flex;
   justify-content: space-between;
@@ -147,35 +269,4 @@
 
 .allLink:hover svg {
   transform: translateX(4px);
-}
-
-/* ---------- CTA ---------- */
-.cta {
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 2rem;
-  padding: clamp(2.5rem, 5vw, 4rem);
-  border-radius: var(--radius-lg);
-  color: rgb(255 255 255 / 0.8);
-  background:
-    radial-gradient(30rem 18rem at 100% 0%, rgb(255 176 32 / 0.3), transparent 60%),
-    linear-gradient(135deg, var(--c-primary-dark), var(--c-primary));
-  box-shadow: var(--shadow-lg);
-}
-
-.cta h2 {
-  color: #fff;
-}
-
-.cta p {
-  max-width: 52ch;
-  margin: 0;
-}
-
-.cta :global(.btn--ghost) {
-  color: #fff;
 }

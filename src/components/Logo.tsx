@@ -1,16 +1,13 @@
-import styles from './Logo.module.css'
+import { asset } from '../utils.ts'
 
-// Placeholder logo — swap the mark for the official BEST logo (SVG in /public).
-export default function Logo({ light = false }: { light?: boolean }) {
+export default function Logo({ height = 44 }: { height?: number }) {
   return (
-    <span className={`${styles.logo} ${light ? styles.light : ''}`}>
-      <span className={styles.mark} aria-hidden="true">
-        B
-      </span>
-      <span className={styles.text}>
-        <strong>BEST</strong>
-        <span>Louvain-la-Neuve</span>
-      </span>
-    </span>
+    <img
+      src={asset('images/logo-best-lln.png')}
+      alt="BEST Louvain-la-Neuve"
+      height={height}
+      width={Math.round(height * 2.07)}
+      style={{ height, width: 'auto' }}
+    />
   )
 }

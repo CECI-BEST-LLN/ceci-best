@@ -1,0 +1,72 @@
+.grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+}
+
+.general,
+.person {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.2rem;
+  padding: 1.75rem 1.25rem;
+  color: var(--c-text);
+  text-decoration: none;
+}
+
+.general {
+  justify-content: center;
+  background: linear-gradient(160deg, var(--c-primary), var(--c-primary-dark));
+  border-color: transparent;
+  color: #fff;
+}
+
+.general :global(.icon-badge) {
+  background: rgb(255 255 255 / 0.15);
+  color: #fff;
+  margin-bottom: 0.75rem;
+}
+
+.general .email {
+  color: rgb(255 255 255 / 0.85);
+}
+
+.general strong,
+.person strong {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+}
+
+.avatar {
+  width: 5.5rem;
+  height: 5.5rem;
+  margin-bottom: 0.9rem;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 20%;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, var(--c-primary), var(--c-primary-dark));
+  box-shadow:
+    0 0 0 4px var(--c-bg),
+    0 0 0 6px var(--c-primary-soft);
+}
+
+.role {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--c-primary);
+}
+
+.email {
+  margin-top: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--c-muted);
+  word-break: break-all;
+}

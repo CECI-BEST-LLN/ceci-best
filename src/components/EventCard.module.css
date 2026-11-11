@@ -1,0 +1,100 @@
+.card {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  padding: 1.75rem;
+}
+
+.date {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 4.5rem;
+  height: 4.75rem;
+  border-radius: 16px;
+  background: linear-gradient(160deg, var(--c-primary), var(--c-primary-dark));
+  color: #fff;
+  box-shadow: 0 10px 20px -10px rgb(22 82 196 / 0.7);
+}
+
+.day {
+  font-family: var(--font-heading);
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.month {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.body {
+  min-width: 0;
+}
+
+.body h3 {
+  margin: 0.6rem 0 0.3rem;
+}
+
+.meta {
+  font-size: 0.92rem;
+  color: var(--c-muted);
+  margin-bottom: 0.75rem;
+}
+
+.body > p:not(.meta) {
+  font-size: 0.98rem;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.course {
+  background: var(--c-primary-soft);
+  color: var(--c-primary);
+}
+.competition {
+  background: var(--c-accent-soft);
+  color: #9a5b00;
+}
+.workshop {
+  background: #e6f8f0;
+  color: #0b7a4b;
+}
+.social {
+  background: #fdeef6;
+  color: #b4236c;
+}
+
+.more {
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.past {
+  opacity: 0.75;
+}
+
+.past .date {
+  background: var(--c-muted);
+  box-shadow: none;
+}
+
+@media (max-width: 480px) {
+  .card {
+    flex-direction: column;
+  }
+}

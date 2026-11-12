@@ -22,6 +22,78 @@
   mask-image: radial-gradient(ellipse 80% 70% at 70% 30%, #000 30%, transparent 75%);
 }
 
+/* Board group photo as background, with a BEST-blue overlay on the text side */
+.withPhoto {
+  background:
+    linear-gradient(90deg, rgb(6 43 77 / 0.9) 0%, rgb(6 43 77 / 0.62) 42%, rgb(10 76 134 / 0.12) 72%, transparent 100%),
+    var(--hero-photo) center 30% / cover no-repeat,
+    var(--c-primary-darker);
+  min-height: min(82vh, 760px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.withPhoto::before,
+.withPhoto .glow {
+  display: none;
+}
+
+.withPhoto .heroInner {
+  grid-template-columns: minmax(0, 640px);
+}
+
+.photoCredit {
+  position: absolute;
+  right: clamp(1.25rem, 4vw, 2rem);
+  top: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 999px;
+  background: rgb(6 43 77 / 0.55);
+  border: 1px solid rgb(255 255 255 / 0.2);
+  backdrop-filter: blur(6px);
+  transition: background-color 0.2s;
+}
+
+.photoCredit:hover {
+  background: rgb(6 43 77 / 0.8);
+}
+
+.statsBand {
+  background: var(--c-primary-darker);
+  padding-bottom: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+.statsBand .stats {
+  margin-top: 0;
+  transform: translateY(-50%);
+  margin-bottom: -2.5rem;
+  background: rgb(6 43 77 / 0.75);
+}
+
+@media (max-width: 860px) {
+  .photoCredit {
+    position: static;
+    align-self: flex-start;
+    margin: 2rem clamp(1.25rem, 4vw, 2rem) 0;
+  }
+
+  .withPhoto {
+    min-height: 0;
+    background:
+      linear-gradient(0deg, rgb(6 43 77 / 0.97) 0%, rgb(6 43 77 / 0.88) 55%, rgb(6 43 77 / 0.55) 100%),
+      var(--hero-photo) center 30% / cover no-repeat,
+      var(--c-primary-darker);
+  }
+}
+
 .glow {
   position: absolute;
   z-index: -1;

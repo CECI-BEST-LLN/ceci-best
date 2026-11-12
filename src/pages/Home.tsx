@@ -1,5 +1,7 @@
+import type { CSSProperties } from 'react'
 import { Link } from 'react-router'
 import { ArrowRightIcon } from '../components/Icons.tsx'
+import { currentBoard } from '../data/boards/index.ts'
 import { partners } from '../data/partners.ts'
 import { asset } from '../utils.ts'
 import pages from './Pages.module.css'
@@ -37,10 +39,27 @@ const activities = [
 ]
 
 export default function Home() {
+  // The current board's group photo is the hero background — it changes with the board.
+  const heroPhoto = currentBoard.groupPhoto
+
+  const statsList = (
+    <dl className={`${styles.stats} fade-up`} style={{ animationDelay: '200ms' }}>
+      {stats.map((s) => (
+        <div key={s.label} className={styles.stat}>
+          <dt>{s.label}</dt>
+          <dd>{s.value}</dd>
+        </div>
+      ))}
+    </dl>
+  )
+
   return (
     <>
       {/* ---------- Hero ---------- */}
-      <section className={styles.hero}>
+      <section
+        className={`${styles.hero} ${heroPhoto ? styles.withPhoto : ''}`}
+        style={heroPhoto ? ({ '--hero-photo': `url("${heroPhoto}")` } as CSSProperties) : undefined}
+      >
         <div className={styles.glow} aria-hidden="true" />
         <div className={`container ${styles.heroInner}`}>
           <div className={`${styles.heroText} fade-up`}>
@@ -61,22 +80,28 @@ export default function Home() {
               </Link>
             </div>
           </div>
-          <div className={`${styles.heroMark} fade-up`} style={{ animationDelay: '120ms' }} aria-hidden="true">
-            <img src={asset('images/best-mark.png')} alt="" />
-          </div>
+          {!heroPhoto && (
+            <div className={`${styles.heroMark} fade-up`} style={{ animationDelay: '120ms' }} aria-hidden="true">
+              <img src={asset('images/best-mark.png')} alt="" />
+            </div>
+          )}
         </div>
 
-        <div className="container">
-          <dl className={`${styles.stats} fade-up`} style={{ animationDelay: '200ms' }}>
-            {stats.map((s) => (
-              <div key={s.label} className={styles.stat}>
-                <dt>{s.label}</dt>
-                <dd>{s.value}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
+        {heroPhoto && (
+          <Link to="/board" className={styles.photoCredit}>
+            Board {currentBoard.years} — {currentBoard.name} <ArrowRightIcon width={14} height={14} />
+          </Link>
+        )}
+
+        {!heroPhoto && <div className="container">{statsList}</div>}
       </section>
+
+      {/* With a photo, the stats sit in a band under the hero so faces stay visible. */}
+      {heroPhoto && (
+        <div className={styles.statsBand}>
+          <div className="container">{statsList}</div>
+        </div>
+      )}
 
       {/* ---------- Main activities ---------- */}
       <section className="section" id="activities">

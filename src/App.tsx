@@ -27,6 +27,7 @@ export default function App() {
         <Route path="summer-course/:year" element={<SummerCourseEdition />} />
         <Route path="board" element={<Board />} />
         <Route path="board/previous" element={<PreviousBoards />} />
+        <Route path="board/:years" element={<Board />} />
         <Route path="partners" element={<Partners />} />
         <Route path="*" element={<NotFound />} />
       </Route>

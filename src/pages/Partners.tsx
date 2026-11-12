@@ -1,12 +1,10 @@
 import ContactBlock from '../components/ContactBlock.tsx'
 import PageHero from '../components/PageHero.tsx'
 import { ExternalIcon } from '../components/Icons.tsx'
-import { contactByRole } from '../data/board.ts'
+import { pageContacts } from '../data/contacts.ts'
 import { partners } from '../data/partners.ts'
 import { asset } from '../utils.ts'
 import styles from './Pages.module.css'
-
-const contacts = [contactByRole('FR Responsible'), contactByRole('Competitions Coordinator'), contactByRole('BCS Main Organiser')]
 
 export default function Partners() {
   return (
@@ -40,7 +38,7 @@ export default function Partners() {
       </section>
 
       <ContactBlock
-        contacts={contacts}
+        roles={pageContacts.partners}
         title="Contact us"
         intro="A question about one of our projects, or considering sponsoring an event? Get in touch — we are always open to collaboration."
       />

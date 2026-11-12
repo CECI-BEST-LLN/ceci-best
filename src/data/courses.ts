@@ -1,5 +1,4 @@
-import { contactByRole } from './board.ts'
-import type { Contact, ExternalLink } from './types.ts'
+import type { ExternalLink } from './types.ts'
 
 export interface CourseEdition {
   /** URL segment: /summer-course/<year> */
@@ -12,8 +11,6 @@ export interface CourseEdition {
   resources: ExternalLink[]
   /** Path inside /public */
   photo?: string
-  /** Omit to use the current board contacts; [] to only show the general email */
-  contacts?: Contact[]
 }
 
 // Newest first.
@@ -50,11 +47,6 @@ export const courseEditions: CourseEdition[] = [
       { label: 'BCS Schedule 2025', href: 'https://drive.google.com/file/d/1ZbGJuSk6jMpS5cF8FvZq_ubZ5Jiy6vPv/view?usp=download' },
     ],
     photo: 'images/bcs-group.webp',
-    contacts: [
-      { name: 'Madeleine Vanderschelden', role: 'BCS Main Organiser', email: 'madeleine.vanderschelden@best-eu.org' },
-      { name: 'Cindie Scheuren', role: 'President', email: 'cindie.scheuren@best-eu.org' },
-      { name: 'Pierre Joris', role: 'Vivaldi', email: 'pierre.joris@best-eu.org' },
-    ],
   },
   {
     year: '2024',
@@ -62,12 +54,5 @@ export const courseEditions: CourseEdition[] = [
       { label: 'Survival guide 2024', href: 'https://drive.usercontent.google.com/uc?id=1djfBNPxBv-Ot1hruniAokzfAzYkZKgVV&export=download' },
       { label: 'BCS Schedule 2024', href: 'https://drive.usercontent.google.com/uc?id=10tQyGp3vSs-LhatYvHcPl9e2yB8fQSah&export=download' },
     ],
-    contacts: [],
   },
-]
-
-export const courseContacts: Contact[] = [
-  contactByRole('BCS Main Organiser'),
-  contactByRole('President'),
-  contactByRole('Vivaldi'),
 ]

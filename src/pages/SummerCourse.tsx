@@ -2,7 +2,8 @@ import { Link } from 'react-router'
 import ContactBlock from '../components/ContactBlock.tsx'
 import PageHero from '../components/PageHero.tsx'
 import { ArrowRightIcon, CalendarIcon, EuroIcon, GlobeIcon, SchoolIcon } from '../components/Icons.tsx'
-import { courseContacts, courseEditions } from '../data/courses.ts'
+import { pageContacts } from '../data/contacts.ts'
+import { courseEditions } from '../data/courses.ts'
 import { asset } from '../utils.ts'
 import styles from './Pages.module.css'
 
@@ -87,7 +88,7 @@ export default function SummerCourse() {
         </div>
       </section>
 
-      <ContactBlock contacts={courseContacts} />
+      <ContactBlock roles={pageContacts.summerCourse} />
     </>
   )
 }

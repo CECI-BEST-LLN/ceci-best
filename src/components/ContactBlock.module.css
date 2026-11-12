@@ -40,22 +40,7 @@
 }
 
 .avatar {
-  width: 5.5rem;
-  height: 5.5rem;
   margin-bottom: 0.9rem;
-  border-radius: 50%;
-  object-fit: cover;
-  object-position: center 20%;
-  display: grid;
-  place-items: center;
-  font-family: var(--font-heading);
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: #fff;
-  background: linear-gradient(135deg, var(--c-primary), var(--c-primary-dark));
-  box-shadow:
-    0 0 0 4px var(--c-bg),
-    0 0 0 6px var(--c-primary-soft);
 }
 
 .role {

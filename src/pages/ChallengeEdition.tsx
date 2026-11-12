@@ -3,7 +3,10 @@ import ContactBlock from '../components/ContactBlock.tsx'
 import LinkList from '../components/LinkList.tsx'
 import PageHero from '../components/PageHero.tsx'
 import { BriefcaseIcon, CalendarIcon, ChatIcon, PinIcon } from '../components/Icons.tsx'
-import { challengeContacts, challengeEditions } from '../data/challenge.ts'
+import OrganisingTeam from '../components/OrganisingTeam.tsx'
+import { boardAt } from '../data/boards/index.ts'
+import { challengeEditions } from '../data/challenge.ts'
+import { pageContacts } from '../data/contacts.ts'
 import { partnerById } from '../data/partners.ts'
 import { asset } from '../utils.ts'
 import NotFound from './NotFound.tsx'
@@ -75,6 +78,8 @@ export default function ChallengeEdition() {
               <LinkList links={edition.links} />
             </>
           )}
+
+          <OrganisingTeam board={boardAt(edition.date)} roles={pageContacts.challenge} />
         </div>
       </section>
 
@@ -102,7 +107,7 @@ export default function ChallengeEdition() {
         </section>
       )}
 
-      <ContactBlock contacts={challengeContacts} />
+      <ContactBlock roles={pageContacts.challenge} />
     </>
   )
 }

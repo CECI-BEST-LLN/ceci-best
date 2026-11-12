@@ -3,7 +3,7 @@ import ContactBlock from '../components/ContactBlock.tsx'
 import LinkList from '../components/LinkList.tsx'
 import PageHero from '../components/PageHero.tsx'
 import { BriefcaseIcon, EuroIcon, GiftIcon, LightbulbIcon, UsersIcon } from '../components/Icons.tsx'
-import { contactByRole } from '../data/board.ts'
+import { pageContacts } from '../data/contacts.ts'
 import type { ExternalLink } from '../data/types.ts'
 import { asset } from '../utils.ts'
 import styles from './Pages.module.css'
@@ -24,8 +24,6 @@ const links: ExternalLink[] = [
   },
   { label: 'Facebook event', href: 'https://www.facebook.com/events/862315038813468' },
 ]
-
-const contacts = [contactByRole('Competitions Coordinator'), contactByRole('President'), contactByRole('PR Responsible')]
 
 export default function Hackathon() {
   return (
@@ -69,7 +67,7 @@ export default function Hackathon() {
         </div>
       </section>
 
-      <ContactBlock contacts={contacts} />
+      <ContactBlock roles={pageContacts.hackathon} />
     </>
   )
 }

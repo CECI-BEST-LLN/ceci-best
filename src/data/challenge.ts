@@ -1,11 +1,12 @@
-import { contactByRole } from './board.ts'
-import type { Contact, ExternalLink } from './types.ts'
+import type { ExternalLink } from './types.ts'
 
 export interface ChallengeEdition {
   /** URL segment: /challenge/<slug> */
   slug: string
   menuLabel: string
   title: string
+  /** ISO date ("2025-03-01" or "2025-03") — used to find the board that organised it */
+  date: string
   dateLabel: string
   location: string
   /** Company that proposed the case */
@@ -27,6 +28,7 @@ export const challengeEditions: ChallengeEdition[] = [
     slug: '2025',
     menuLabel: 'March 2025',
     title: 'Engineering Challenge 2025',
+    date: '2025-03-01',
     dateLabel: 'Saturday, March 1st, 2025',
     location: 'Hall Sainte-Barbe, Louvain-la-Neuve',
     casePartner: 'Sweco',
@@ -51,6 +53,7 @@ export const challengeEditions: ChallengeEdition[] = [
     slug: '2024',
     menuLabel: 'March 2024',
     title: 'Engineering Challenge 2024',
+    date: '2024-03',
     dateLabel: 'March 2024',
     location: 'Hall Sainte-Barbe, Louvain-la-Neuve',
     intro: [
@@ -66,10 +69,4 @@ export const challengeEditions: ChallengeEdition[] = [
     ],
     links: [{ label: 'Facebook event', href: 'https://fb.me/e/aC8MkaXUV' }],
   },
-]
-
-export const challengeContacts: Contact[] = [
-  contactByRole('Competitions Coordinator'),
-  contactByRole('President'),
-  contactByRole('PR Responsible'),
 ]

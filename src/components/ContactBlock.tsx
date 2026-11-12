@@ -1,27 +1,20 @@
+import { contactsFor, type Role } from '../data/boards/index.ts'
 import { site } from '../data/site.ts'
-import type { Contact } from '../data/types.ts'
-import { asset } from '../utils.ts'
+import Avatar from './Avatar.tsx'
 import { MailIcon } from './Icons.tsx'
 import styles from './ContactBlock.module.css'
 
 interface ContactBlockProps {
-  contacts: Contact[]
+  /** Board positions to show — people are taken from the current board */
+  roles: Role[]
   title?: string
   intro?: string
 }
 
-const initials = (name: string) =>
-  name
-    .replace(/".*?"/g, '')
-    .split(/\s+/)
-    .filter(Boolean)
-    .map((p) => p[0])
-    .join('')
-    .slice(0, 2)
-    .toUpperCase()
-
 /** "Contact information" section shown at the bottom of activity pages. */
-export default function ContactBlock({ contacts, title = 'Contact information', intro }: ContactBlockProps) {
+export default function ContactBlock({ roles, title = 'Contact information', intro }: ContactBlockProps) {
+  const contacts = contactsFor(roles)
+
   return (
     <section className="section section--alt">
       <div className="container">
@@ -41,14 +34,10 @@ export default function ContactBlock({ contacts, title = 'Contact information', 
           </a>
 
           {contacts.map((c) => (
-            <a key={c.email} href={`mailto:${c.email}`} className={`card ${styles.person}`}>
-              {c.photo ? (
-                <img src={asset(c.photo)} alt="" className={styles.avatar} loading="lazy" />
-              ) : (
-                <span className={styles.avatar} aria-hidden="true">
-                  {initials(c.name)}
-                </span>
-              )}
+            <a key={c.email + c.role} href={`mailto:${c.email}`} className={`card ${styles.person}`}>
+              <span className={styles.avatar}>
+                <Avatar name={c.name} photo={c.photo} />
+              </span>
               <strong>{c.name}</strong>
               <span className={styles.role}>{c.role}</span>
               <span className={styles.email}>{c.email}</span>

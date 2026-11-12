@@ -1,0 +1,15 @@
+.avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 20%;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, var(--c-primary), var(--c-primary-dark));
+  box-shadow:
+    0 0 0 3px var(--c-bg),
+    0 0 0 5px var(--c-primary-soft);
+}

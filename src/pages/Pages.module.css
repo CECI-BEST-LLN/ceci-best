@@ -436,3 +436,36 @@ a.logoTile:hover {
   background-clip: text;
   color: transparent;
 }
+
+/* ---------- Board extras ---------- */
+.memberNoPhoto {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 8 / 9;
+  background: var(--c-surface);
+}
+
+.roster dd {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.boardLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 1.25rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.boardLink svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  transition: transform 0.2s var(--ease);
+}
+
+.boardLink:hover svg {
+  transform: translateX(4px);
+}

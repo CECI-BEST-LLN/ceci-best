@@ -2,7 +2,10 @@ import { useParams } from 'react-router'
 import ContactBlock from '../components/ContactBlock.tsx'
 import LinkList from '../components/LinkList.tsx'
 import PageHero from '../components/PageHero.tsx'
-import { courseContacts, courseEditions } from '../data/courses.ts'
+import OrganisingTeam from '../components/OrganisingTeam.tsx'
+import { boardAt } from '../data/boards/index.ts'
+import { pageContacts } from '../data/contacts.ts'
+import { courseEditions } from '../data/courses.ts'
 import { asset } from '../utils.ts'
 import NotFound from './NotFound.tsx'
 import styles from './Pages.module.css'
@@ -54,10 +57,11 @@ export default function SummerCourseEdition() {
             <h2>Useful resources</h2>
           </div>
           <LinkList links={edition.resources} />
+          <OrganisingTeam board={boardAt(edition.year)} roles={pageContacts.summerCourse} />
         </div>
       </section>
 
-      <ContactBlock contacts={edition.contacts ?? courseContacts} />
+      <ContactBlock roles={pageContacts.summerCourse} />
     </>
   )
 }

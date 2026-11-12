@@ -1,5 +1,8 @@
+import { Link } from 'react-router'
+import Avatar from '../components/Avatar.tsx'
+import { ArrowRightIcon } from '../components/Icons.tsx'
 import PageHero from '../components/PageHero.tsx'
-import { previousBoards } from '../data/board.ts'
+import { previousBoards } from '../data/boards/index.ts'
 import styles from './Pages.module.css'
 
 const detailed = previousBoards.filter((b) => b.members.length > 0)
@@ -22,12 +25,18 @@ export default function PreviousBoards() {
               </h3>
               <dl className={styles.roster}>
                 {b.members.map((m) => (
-                  <div key={m.role}>
+                  <div key={m.slug + m.role}>
                     <dt>{m.role}</dt>
-                    <dd>{m.name}</dd>
+                    <dd>
+                      {m.photo && <Avatar name={m.name} photo={m.photo} size={28} />}
+                      {m.name}
+                    </dd>
                   </div>
                 ))}
               </dl>
+              <Link to={`/board/${b.years}`} className={styles.boardLink}>
+                See this board <ArrowRightIcon />
+              </Link>
             </article>
           ))}
         </div>

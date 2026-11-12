@@ -2,7 +2,8 @@ import { Link } from 'react-router'
 import ContactBlock from '../components/ContactBlock.tsx'
 import PageHero from '../components/PageHero.tsx'
 import { ArrowRightIcon, CoffeeIcon, CubeIcon, EuroIcon, GiftIcon, LightbulbIcon, UsersIcon } from '../components/Icons.tsx'
-import { challengeContacts, challengeEditions } from '../data/challenge.ts'
+import { challengeEditions } from '../data/challenge.ts'
+import { pageContacts } from '../data/contacts.ts'
 import { asset } from '../utils.ts'
 import styles from './Pages.module.css'
 
@@ -102,7 +103,7 @@ export default function Challenge() {
         </div>
       </section>
 
-      <ContactBlock contacts={challengeContacts} />
+      <ContactBlock roles={pageContacts.challenge} />
     </>
   )
 }

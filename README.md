@@ -22,25 +22,58 @@ src/
   pages/        One file per route (Home, Best, Challenge, Hackathon, SummerCourse, Board…)
   data/         Site content as typed TS files — edit these to update the site
     site.ts       name, email, socials, navigation menu
-    board.ts      current board (with photos & emails) + previous boards
+    boards/       one file per board: 2025-2026.ts, 2024-2025.ts…
+      roles.ts      list of board positions
+    contacts.ts   which positions are shown as contacts on each page
     challenge.ts  Engineering Challenge editions
     courses.ts    BEST Course in Summer (BCS) editions & participant resources
     partners.ts   partners & event sponsors
+  assets/boards/<years>/   board photos (one per member + group.webp)
   index.css     Design tokens (BEST colors, fonts, radius…) + global utilities
 public/
-  images/       Logos, photos, board pictures, partner logos
+  images/       Logos, photos, partner logos
 ```
 
 Styling uses plain CSS: global tokens and utility classes in `src/index.css`, and
 component-scoped styles in `*.module.css` files (CSS Modules).
 
-## Common updates
+## New board (every year)
 
-- **New board**: move `currentBoard` into `previousBoards` (keep name/role only), fill in the
-  new `currentBoard` and add photos in `public/images/board/` (portrait, ~640×720 WebP).
-  Contacts shown on activity pages are looked up by role, so they update automatically.
+1. Copy `src/data/boards/2025-2026.ts` to `src/data/boards/2026-2027.ts` and fill in the
+   years, the board name and the members:
+
+   ```ts
+   export default defineBoard({
+     years: '2026-2027',
+     name: 'Board pun name',
+     members: [
+       { name: 'Firstname Lastname', role: 'President' },
+       // ...
+     ],
+   })
+   ```
+
+2. Add the photos in `src/assets/boards/2026-2027/`, named after each member
+   (`firstname-lastname.webp`, accents removed, e.g. `lea-kayser.webp`) plus an optional
+   `group.webp`. Portraits around 640×720 work best.
+
+That's it — the newest board automatically becomes the current one everywhere:
+Board page, contact blocks of every page, and the previous board moves to "Previous boards"
+(with its own page at `/board/<years>`). Past Challenge/BCS editions show the board that was in
+office at their date (a new board starts in September).
+
+Good to know:
+- Emails default to `firstname.lastname@best-eu.org`; set `email: '...'` to override or
+  `email: null` if someone has no BEST address.
+- `role` only accepts positions listed in `boards/roles.ts` — a typo breaks the build instead
+  of silently showing nobody. Add a new position there if needed.
+- To change who is shown as contact on a page, edit `data/contacts.ts` (positions, not names).
+
+## Other common updates
+
 - **New Engineering Challenge / BCS edition**: add an entry at the top of
-  `challengeEditions` / `courseEditions`. The page and the menu entry are generated.
+  `challengeEditions` / `courseEditions` (with its `date` / `year`). The page, the menu entry
+  and the "Organised by" credits are generated.
 - **New partner**: add it to `partners` (main partners) or `sponsors` (event sponsors) with a
   logo in `public/images/partners/`.
 

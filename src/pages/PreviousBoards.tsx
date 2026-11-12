@@ -20,20 +20,32 @@ export default function PreviousBoards() {
           {detailed.map((b) => (
             <article key={b.years} className={`card ${styles.boardCard}`}>
               <h3>
-                <span className={styles.boardName}>{b.name}</span>
-                <small>{b.years}</small>
+                <span className={styles.boardName}>{b.name ?? b.years}</span>
+                {b.name && <small>{b.years}</small>}
               </h3>
-              <dl className={styles.roster}>
-                {b.members.map((m) => (
-                  <div key={m.slug + m.role}>
-                    <dt>{m.roleLabel}</dt>
-                    <dd>
-                      {m.photo && <Avatar name={m.name} photo={m.photo} size={28} />}
+              {b.members.some((m) => m.hasKnownRole) ? (
+                <dl className={styles.roster}>
+                  {b.members.map((m) => (
+                    <div key={m.slug}>
+                      <dt>{m.hasKnownRole ? m.roleLabel : 'Board member'}</dt>
+                      <dd>
+                        {m.photo && <Avatar name={m.name} photo={m.photo} size={28} />}
+                        {m.name}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              ) : (
+                // Positions unknown: plain list of names
+                <ul className={styles.rosterNames}>
+                  {b.members.map((m) => (
+                    <li key={m.slug}>
+                      <Avatar name={m.name} photo={m.photo} size={28} />
                       {m.name}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
+                    </li>
+                  ))}
+                </ul>
+              )}
               <Link to={`/board/${b.years}`} className={styles.boardLink}>
                 See this board <ArrowRightIcon />
               </Link>
@@ -47,7 +59,7 @@ export default function PreviousBoards() {
             <ul className={styles.earlier}>
               {earlier.map((b) => (
                 <li key={b.years}>
-                  <span className={styles.boardName}>{b.name}</span> <small>{b.years}</small>
+                  <span className={styles.boardName}>{b.title}</span> <small>{b.years}</small>
                 </li>
               ))}
             </ul>

@@ -71,6 +71,9 @@ Good to know:
 - A typo in a role key (`presdient`) breaks the build instead of silently showing nobody.
   New position? Add one line in `boards/roles.ts` (key + label).
 - To change who is shown as contact on a page, edit `data/contacts.ts` (role keys, not names).
+- The board name is optional: `defineBoard({ president: '...' })`. Unknown positions can be
+  listed with `member: ['Name', 'Name']`. Someone holding two roles is shown once
+  ("Secretary & Event Responsible").
 
 ## Other common updates
 

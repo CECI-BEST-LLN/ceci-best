@@ -10,7 +10,7 @@ export type Person = string | { name: string; email?: string | null }
 export type BoardRoles = Partial<Record<Role, Person | Person[]>>
 
 export interface BoardDefinition {
-  name: string
+  name?: string
   roles: BoardRoles
 }
 
@@ -21,7 +21,11 @@ export interface BoardDefinition {
  *     president: 'Lena Aroud',
  *     secretary: 'Constan Colinet',
  *   })
+ *
+ * The board name is optional: `defineBoard({ member: ['Jane Doe', 'John Doe'] })`.
  */
-export function defineBoard(name: string, roles: BoardRoles): BoardDefinition {
-  return { name, roles }
+export function defineBoard(roles: BoardRoles): BoardDefinition
+export function defineBoard(name: string, roles: BoardRoles): BoardDefinition
+export function defineBoard(a: string | BoardRoles, b?: BoardRoles): BoardDefinition {
+  return typeof a === 'string' ? { name: a, roles: b ?? {} } : { roles: a }
 }

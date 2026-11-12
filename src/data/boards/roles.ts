@@ -4,6 +4,7 @@
 
 export const ROLES = {
   president: 'President',
+  vicePresident: 'Vice-President',
   secretary: 'Secretary',
   treasurer: 'Treasurer',
   fr: 'FR Responsible',
@@ -11,9 +12,13 @@ export const ROLES = {
   pr: 'PR Responsible',
   competitions: 'Competitions Coordinator',
   ebec: 'EBEC Coordinator', // old name of "competitions"
+  ebecBenelux: 'EBEC Benelux Main Organiser',
+  events: 'Event Responsible',
   bcs: 'BCS Main Organiser',
   vivaldi: 'Vivaldi',
   it: 'IT Responsible',
+  webmaster: 'Webmaster',
+  member: 'Board member', // when the exact position is unknown
 } as const
 
 export type Role = keyof typeof ROLES

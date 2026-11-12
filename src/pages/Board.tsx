@@ -15,10 +15,14 @@ export default function Board() {
 
   return (
     <>
-      <PageHero eyebrow={`Board ${board.years}`} title={isCurrent ? 'Meet the board' : board.name}>
+      <PageHero eyebrow={`Board ${board.years}`} title={isCurrent ? 'Meet the board' : board.title}>
         {isCurrent ? (
           <p>
-            This year's board goes by the name <strong className={styles.boardName}>{board.name}</strong>.
+            {board.name && (
+              <>
+                This year's board goes by the name <strong className={styles.boardName}>{board.name}</strong>.{' '}
+              </>
+            )}
             Here are the students who make BEST Louvain-la-Neuve happen.
           </p>
         ) : (
@@ -33,7 +37,7 @@ export default function Board() {
               className={`${styles.photo} ${styles.photoWide}`}
               style={{ marginBottom: '3.5rem' }}
               src={board.groupPhoto}
-              alt={`Board ${board.years} — ${board.name}`}
+              alt={`Board ${board.years}${board.name ? ` — ${board.name}` : ''}`}
             />
           )}
 
@@ -42,7 +46,7 @@ export default function Board() {
           ) : (
             <div className={styles.members}>
               {board.members.map((m) => (
-                <article key={m.slug + m.role} className={`card ${styles.member}`}>
+                <article key={m.slug} className={`card ${styles.member}`}>
                   <div className={styles.memberPhotoWrap}>
                     {m.photo ? (
                       <img className={styles.memberPhoto} src={m.photo} alt={m.name} loading="lazy" />
@@ -54,7 +58,7 @@ export default function Board() {
                   </div>
                   <div className={styles.memberBody}>
                     <h3>{m.name}</h3>
-                    <p className={styles.role}>{m.roleLabel}</p>
+                    {m.hasKnownRole && <p className={styles.role}>{m.roleLabel}</p>}
                     {isCurrent && m.email && (
                       <a className={styles.memberMail} href={`mailto:${m.email}`}>
                         {m.email}

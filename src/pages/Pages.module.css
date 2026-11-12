@@ -469,3 +469,25 @@ a.logoTile:hover {
 .boardLink:hover svg {
   transform: translateX(4px);
 }
+
+.rosterNames {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.15rem;
+}
+
+.rosterNames li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px dashed var(--c-border);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.rosterNames li:last-child {
+  border-bottom: 0;
+}

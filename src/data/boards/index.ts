@@ -7,16 +7,21 @@
 //     Nothing else to change: the newest board becomes the current one everywhere.
 
 import type { Contact } from '../types.ts'
-import type { BoardDefinition, Person } from './define.ts'
+import type { BoardDefinition } from './define.ts'
 import { ROLES, roleLabel, type Role } from './roles.ts'
 
 export type { Role } from './roles.ts'
 
 export interface BoardMember {
   name: string
+  /** Main (first) role */
   role: Role
-  /** Human-readable role, e.g. "PR Responsible" */
+  /** All roles held that year — usually one */
+  roles: Role[]
+  /** Human-readable role(s), e.g. "PR Responsible" or "Secretary & Event Responsible" */
   roleLabel: string
+  /** False when the exact position is unknown (role "member") */
+  hasKnownRole: boolean
   slug: string
   email?: string
   /** Resolved image URL, if a photo exists */
@@ -25,7 +30,10 @@ export interface BoardMember {
 
 export interface Board {
   years: string
-  name: string
+  /** The board's pun name, if known */
+  name?: string
+  /** Name to display: the pun name, or "Board 2012-2013" */
+  title: string
   /** First calendar year of the academic year (2025 for "2025-2026") */
   startYear: number
   members: BoardMember[]
@@ -51,7 +59,7 @@ export function slugify(name: string) {
   return name
     .replace(/["“”].*?["“”]/g, ' ')
     .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '') // strip accents
+    .replace(/[\u0300-\u036f]/g, '') // strip accents
     .toLowerCase()
     .trim()
     .replace(/[^a-z0-9]+/g, '-')
@@ -75,30 +83,41 @@ function resolve(file: string, def: BoardDefinition): Board {
   const years = file.match(/(\d{4}-\d{4})\.ts$/)?.[1]
   if (!years) throw new Error(`Board file "${file}" must be named like "2025-2026.ts"`)
 
-  const toMember = (role: Role, person: Person): BoardMember => {
-    const { name, email } = typeof person === 'string' ? { name: person, email: undefined } : person
-    const slug = slugify(name)
-    return {
-      name,
-      role,
-      roleLabel: roleLabel(role),
-      slug,
-      email: email === null ? undefined : (email ?? emailFor(slug)),
-      photo: findPhoto(years, slug),
+  // Iterate over ROLES so members always come out in the official order.
+  // Someone holding two roles is merged into a single member.
+  const bySlug = new Map<string, BoardMember>()
+  for (const role of Object.keys(ROLES) as Role[]) {
+    const value = def.roles[role]
+    if (!value) continue
+    for (const person of Array.isArray(value) ? value : [value]) {
+      const { name, email } = typeof person === 'string' ? { name: person, email: undefined } : person
+      const slug = slugify(name)
+      const existing = bySlug.get(slug)
+      if (existing) {
+        existing.roles.push(role)
+        existing.roleLabel = existing.roles.map(roleLabel).join(' & ')
+        continue
+      }
+      bySlug.set(slug, {
+        name,
+        role,
+        roles: [role],
+        roleLabel: roleLabel(role),
+        hasKnownRole: role !== 'member',
+        slug,
+        email: email === null ? undefined : (email ?? emailFor(slug)),
+        photo: findPhoto(years, slug),
+      })
     }
   }
 
   return {
     years,
     name: def.name,
+    title: def.name ?? `Board ${years}`,
     startYear: Number(years.slice(0, 4)),
     groupPhoto: findPhoto(years, 'group'),
-    // Iterate over ROLES so members always come out in the official order.
-    members: (Object.keys(ROLES) as Role[]).flatMap((role) => {
-      const value = def.roles[role]
-      if (!value) return []
-      return (Array.isArray(value) ? value : [value]).map((p) => toMember(role, p))
-    }),
+    members: [...bySlug.values()],
   }
 }
 
@@ -143,7 +162,8 @@ export function boardAt(date: string): Board | undefined {
  * Roles nobody holds are skipped; a role held by two people returns both.
  */
 export function membersWithRoles(roles: Role[], board: Board = currentBoard): BoardMember[] {
-  return roles.flatMap((role) => board.members.filter((m) => m.role === role))
+  const found = roles.flatMap((role) => board.members.filter((m) => m.roles.includes(role)))
+  return [...new Set(found)]
 }
 
 /** Same as membersWithRoles, as contact cards (only members with an email). */

@@ -89,7 +89,8 @@ export default function Home() {
 
         {heroPhoto && (
           <Link to="/board" className={styles.photoCredit}>
-            Board {currentBoard.years} — {currentBoard.name} <ArrowRightIcon width={14} height={14} />
+            Board {currentBoard.years}
+            {currentBoard.name && ` — ${currentBoard.name}`} <ArrowRightIcon width={14} height={14} />
           </Link>
         )}
 

@@ -1,5 +1,6 @@
 import { defineBoard } from './define.ts'
 
+// Source: Google Sites + best-lln.be board-2021-2022
 export default defineBoard('Le KEKI', {
   president: 'Pierre Huljev',
   secretary: 'Alice Giot',
@@ -9,6 +10,6 @@ export default defineBoard('Le KEKI', {
   pr: 'Charles-Henri Bertrand',
   ebec: 'Cédric Ponsard',
   bcs: 'Catherine Echezuria Podolecki',
-  vivaldi: 'Benjamin Desseveaux',
+  vivaldi: 'Benjamin Deseveaux',
   it: 'Valentin Bailleux',
 })

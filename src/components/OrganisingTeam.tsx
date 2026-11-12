@@ -20,16 +20,16 @@ export default function OrganisingTeam({ board, roles }: Props) {
       <p className={styles.title}>
         Organised by the board{' '}
         <Link to={`/board/${board.years}`}>
-          {board.name} ({board.years})
+          {board.name ? `${board.name} (${board.years})` : board.years}
         </Link>
       </p>
       <ul className={styles.list}>
         {members.map((m) => (
-          <li key={m.slug + m.role}>
+          <li key={m.slug}>
             <Avatar name={m.name} photo={m.photo} size={44} />
             <span>
               <strong>{m.name}</strong>
-              <small>{m.roleLabel}</small>
+              {m.hasKnownRole && <small>{m.roleLabel}</small>}
             </span>
           </li>
         ))}

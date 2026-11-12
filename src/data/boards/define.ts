@@ -1,28 +1,27 @@
 import type { Role } from './roles.ts'
 
-/** What you write in a board file. */
-export interface BoardInput {
-  /** Academic year, e.g. "2025-2026" — must match the file name and the photo folder */
-  years: string
-  /** The board's pun name */
+/**
+ * A person: just their name, or an object to override the email.
+ * Emails default to firstname.lastname@best-eu.org — use `email: null` if there is none.
+ */
+export type Person = string | { name: string; email?: string | null }
+
+/** One person per role — or several, as an array: `bcs: ['Alice Doe', 'Bob Doe']`. */
+export type BoardRoles = Partial<Record<Role, Person | Person[]>>
+
+export interface BoardDefinition {
   name: string
-  members: MemberInput[]
+  roles: BoardRoles
 }
 
-export interface MemberInput {
-  name: string
-  role: Role
-  /**
-   * Defaults to firstname.lastname@best-eu.org (accents and "nicknames" removed).
-   * Set it to override, or to `null` if the person has no BEST address.
-   */
-  email?: string | null
-}
-
-/** Helper giving autocompletion + type checking in board files. */
-export function defineBoard(board: BoardInput): BoardInput {
-  if (!/^\d{4}-\d{4}$/.test(board.years)) {
-    throw new Error(`Board "${board.name}": years must look like "2025-2026", got "${board.years}"`)
-  }
-  return board
+/**
+ * Declare a board. The academic year comes from the file name (e.g. `2025-2026.ts`).
+ *
+ *   export default defineBoard('Philippe EtcheBEST', {
+ *     president: 'Lena Aroud',
+ *     secretary: 'Constan Colinet',
+ *   })
+ */
+export function defineBoard(name: string, roles: BoardRoles): BoardDefinition {
+  return { name, roles }
 }

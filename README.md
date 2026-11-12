@@ -39,19 +39,22 @@ component-scoped styles in `*.module.css` files (CSS Modules).
 
 ## New board (every year)
 
-1. Copy `src/data/boards/2025-2026.ts` to `src/data/boards/2026-2027.ts` and fill in the
-   years, the board name and the members:
+1. Create `src/data/boards/2026-2027.ts` — the file name gives the academic year:
 
    ```ts
-   export default defineBoard({
-     years: '2026-2027',
-     name: 'Board pun name',
-     members: [
-       { name: 'Firstname Lastname', role: 'President' },
-       // ...
-     ],
+   import { defineBoard } from './define.ts'
+
+   export default defineBoard('Board pun name', {
+     president: 'Firstname Lastname',
+     secretary: 'Firstname Lastname',
+     pr: 'Firstname Lastname',
+     bcs: ['Two People', 'Can Share'],          // several people for one role
+     it: { name: 'Firstname Lastname', email: 'custom@best-eu.org' }, // custom email
    })
    ```
+
+   Role keys autocomplete (Ctrl+Space) and are listed with their labels in
+   `boards/roles.ts`. Order doesn't matter, the site shows them in the official order.
 
 2. Add the photos in `src/assets/boards/2026-2027/`, named after each member
    (`firstname-lastname.webp`, accents removed, e.g. `lea-kayser.webp`) plus an optional
@@ -63,11 +66,11 @@ Board page, contact blocks of every page, and the previous board moves to "Previ
 office at their date (a new board starts in September).
 
 Good to know:
-- Emails default to `firstname.lastname@best-eu.org`; set `email: '...'` to override or
-  `email: null` if someone has no BEST address.
-- `role` only accepts positions listed in `boards/roles.ts` — a typo breaks the build instead
-  of silently showing nobody. Add a new position there if needed.
-- To change who is shown as contact on a page, edit `data/contacts.ts` (positions, not names).
+- Emails default to `firstname.lastname@best-eu.org`; use `{ name, email: '...' }` to override
+  or `email: null` if someone has no BEST address.
+- A typo in a role key (`presdient`) breaks the build instead of silently showing nobody.
+  New position? Add one line in `boards/roles.ts` (key + label).
+- To change who is shown as contact on a page, edit `data/contacts.ts` (role keys, not names).
 
 ## Other common updates
 

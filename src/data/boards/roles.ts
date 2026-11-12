@@ -1,20 +1,23 @@
-// Every board position, in display order.
-// Add a role here if a new position is created — TypeScript will then accept it everywhere.
+// Every board position: short key (used in code) → label (shown on the site).
+// The order here is the display order on the site.
+// New position? Add a line here — it is then available everywhere with autocompletion.
 
-export const ROLES = [
-  'President',
-  'Secretary',
-  'Treasurer',
-  'FR Responsible',
-  'HR Responsible',
-  'PR Responsible',
-  'Competitions Coordinator',
-  'EBEC Coordinator', // old name of "Competitions Coordinator"
-  'BCS Main Organiser',
-  'Vivaldi',
-  'IT Responsible',
-] as const
+export const ROLES = {
+  president: 'President',
+  secretary: 'Secretary',
+  treasurer: 'Treasurer',
+  fr: 'FR Responsible',
+  hr: 'HR Responsible',
+  pr: 'PR Responsible',
+  competitions: 'Competitions Coordinator',
+  ebec: 'EBEC Coordinator', // old name of "competitions"
+  bcs: 'BCS Main Organiser',
+  vivaldi: 'Vivaldi',
+  it: 'IT Responsible',
+} as const
 
-export type Role = (typeof ROLES)[number]
+export type Role = keyof typeof ROLES
 
-export const roleOrder = (role: Role) => ROLES.indexOf(role)
+const order = Object.keys(ROLES) as Role[]
+export const roleOrder = (role: Role) => order.indexOf(role)
+export const roleLabel = (role: Role) => ROLES[role]

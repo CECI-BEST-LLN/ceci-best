@@ -7,14 +7,16 @@
 //     Nothing else to change: the newest board becomes the current one everywhere.
 
 import type { Contact } from '../types.ts'
-import type { BoardInput } from './define.ts'
-import { roleOrder, type Role } from './roles.ts'
+import type { BoardDefinition, Person } from './define.ts'
+import { ROLES, roleLabel, type Role } from './roles.ts'
 
 export type { Role } from './roles.ts'
 
 export interface BoardMember {
   name: string
   role: Role
+  /** Human-readable role, e.g. "PR Responsible" */
+  roleLabel: string
   slug: string
   email?: string
   /** Resolved image URL, if a photo exists */
@@ -34,7 +36,7 @@ export interface Board {
 // Loading
 // ---------------------------------------------------------------------------
 
-const boardFiles = import.meta.glob<BoardInput>(['./*.ts', '!./index.ts', '!./define.ts', '!./roles.ts'], {
+const boardFiles = import.meta.glob<BoardDefinition>(['./*.ts', '!./index.ts', '!./define.ts', '!./roles.ts'], {
   eager: true,
   import: 'default',
 })
@@ -49,7 +51,7 @@ export function slugify(name: string) {
   return name
     .replace(/["“”].*?["“”]/g, ' ')
     .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
+    .replace(/[̀-ͯ]/g, '') // strip accents
     .toLowerCase()
     .trim()
     .replace(/[^a-z0-9]+/g, '-')
@@ -68,33 +70,41 @@ function emailFor(slug: string) {
   return i === -1 ? `${slug}@best-eu.org` : `${slug.slice(0, i)}.${slug.slice(i + 1)}@best-eu.org`
 }
 
-function resolve(input: BoardInput, file: string): Board {
-  if (!file.endsWith(`/${input.years}.ts`)) {
-    throw new Error(`Board file ${file} declares years "${input.years}" — they must match`)
+function resolve(file: string, def: BoardDefinition): Board {
+  // "./2025-2026.ts" → "2025-2026"
+  const years = file.match(/(\d{4}-\d{4})\.ts$/)?.[1]
+  if (!years) throw new Error(`Board file "${file}" must be named like "2025-2026.ts"`)
+
+  const toMember = (role: Role, person: Person): BoardMember => {
+    const { name, email } = typeof person === 'string' ? { name: person, email: undefined } : person
+    const slug = slugify(name)
+    return {
+      name,
+      role,
+      roleLabel: roleLabel(role),
+      slug,
+      email: email === null ? undefined : (email ?? emailFor(slug)),
+      photo: findPhoto(years, slug),
+    }
   }
+
   return {
-    years: input.years,
-    name: input.name,
-    startYear: Number(input.years.slice(0, 4)),
-    groupPhoto: findPhoto(input.years, 'group'),
-    members: [...input.members]
-      .sort((a, b) => roleOrder(a.role) - roleOrder(b.role))
-      .map((m) => {
-        const slug = slugify(m.name)
-        return {
-          name: m.name,
-          role: m.role,
-          slug,
-          email: m.email === null ? undefined : (m.email ?? emailFor(slug)),
-          photo: findPhoto(input.years, slug),
-        }
-      }),
+    years,
+    name: def.name,
+    startYear: Number(years.slice(0, 4)),
+    groupPhoto: findPhoto(years, 'group'),
+    // Iterate over ROLES so members always come out in the official order.
+    members: (Object.keys(ROLES) as Role[]).flatMap((role) => {
+      const value = def.roles[role]
+      if (!value) return []
+      return (Array.isArray(value) ? value : [value]).map((p) => toMember(role, p))
+    }),
   }
 }
 
 /** All boards, newest first. */
 export const boards: Board[] = Object.entries(boardFiles)
-  .map(([file, input]) => resolve(input, file))
+  .map(([file, def]) => resolve(file, def))
   .sort((a, b) => b.startYear - a.startYear)
 
 /** The board currently in office (the newest one). */
@@ -140,5 +150,5 @@ export function membersWithRoles(roles: Role[], board: Board = currentBoard): Bo
 export function contactsFor(roles: Role[], board: Board = currentBoard): Contact[] {
   return membersWithRoles(roles, board)
     .filter((m) => m.email)
-    .map((m) => ({ name: m.name, role: m.role, email: m.email!, photo: m.photo }))
+    .map((m) => ({ name: m.name, role: m.roleLabel, email: m.email!, photo: m.photo }))
 }

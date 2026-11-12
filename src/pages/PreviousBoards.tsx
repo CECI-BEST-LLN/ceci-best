@@ -26,7 +26,7 @@ export default function PreviousBoards() {
               <dl className={styles.roster}>
                 {b.members.map((m) => (
                   <div key={m.slug + m.role}>
-                    <dt>{m.role}</dt>
+                    <dt>{m.roleLabel}</dt>
                     <dd>
                       {m.photo && <Avatar name={m.name} photo={m.photo} size={28} />}
                       {m.name}

@@ -54,7 +54,7 @@ export default function Board() {
                   </div>
                   <div className={styles.memberBody}>
                     <h3>{m.name}</h3>
-                    <p className={styles.role}>{m.role}</p>
+                    <p className={styles.role}>{m.roleLabel}</p>
                     {isCurrent && m.email && (
                       <a className={styles.memberMail} href={`mailto:${m.email}`}>
                         {m.email}

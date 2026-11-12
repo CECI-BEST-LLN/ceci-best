@@ -29,7 +29,7 @@ export default function OrganisingTeam({ board, roles }: Props) {
             <Avatar name={m.name} photo={m.photo} size={44} />
             <span>
               <strong>{m.name}</strong>
-              <small>{m.role}</small>
+              <small>{m.roleLabel}</small>
             </span>
           </li>
         ))}

@@ -1,11 +1,11 @@
 import type { Role } from './boards/index.ts'
 
-// Which board positions to show as contacts on each page.
-// People are looked up in the current board, so this never needs to change when a new board
-// arrives. A role nobody holds is simply skipped (e.g. old "EBEC Coordinator").
+// Which board positions to show as contacts on each page (keys from boards/roles.ts).
+// People are looked up in the current board, so this never changes when a new board arrives.
+// A role nobody holds is simply skipped (e.g. the old "ebec").
 export const pageContacts = {
-  challenge: ['Competitions Coordinator', 'EBEC Coordinator', 'President', 'PR Responsible'],
-  hackathon: ['Competitions Coordinator', 'President', 'PR Responsible'],
-  summerCourse: ['BCS Main Organiser', 'President', 'Vivaldi'],
-  partners: ['FR Responsible', 'Competitions Coordinator', 'BCS Main Organiser'],
+  challenge: ['competitions', 'ebec', 'president', 'pr'],
+  hackathon: ['competitions', 'president', 'pr'],
+  summerCourse: ['bcs', 'president', 'vivaldi'],
+  partners: ['fr', 'competitions', 'bcs'],
 } satisfies Record<string, Role[]>

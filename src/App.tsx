@@ -10,7 +10,6 @@ const Challenge = lazy(() => import('./pages/Challenge.tsx'))
 const ChallengeEdition = lazy(() => import('./pages/ChallengeEdition.tsx'))
 const Hackathon = lazy(() => import('./pages/Hackathon.tsx'))
 const SummerCourse = lazy(() => import('./pages/SummerCourse.tsx'))
-const SummerCourseEdition = lazy(() => import('./pages/SummerCourseEdition.tsx'))
 const Board = lazy(() => import('./pages/Board.tsx'))
 const Partners = lazy(() => import('./pages/Partners.tsx'))
 const NotFound = lazy(() => import('./pages/NotFound.tsx'))
@@ -26,7 +25,7 @@ export default function App() {
         <Route path="challenge/:slug" element={<ChallengeEdition />} />
         <Route path="hackathon" element={<Hackathon />} />
         <Route path="summer-course" element={<SummerCourse />} />
-        <Route path="summer-course/:year" element={<SummerCourseEdition />} />
+        <Route path="summer-course/:year" element={<Navigate to="/summer-course" replace />} />
         <Route path="board" element={<Board />} />
         <Route path="board/previous" element={<Navigate to="/board#previous-boards" replace />} />
         <Route path="board/:years" element={<Board />} />

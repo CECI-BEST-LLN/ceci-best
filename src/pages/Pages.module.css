@@ -526,3 +526,46 @@ a.logoTile:hover {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
 }
+
+/* Summer course: previous editions */
+.pastCourses {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+}
+
+.pastCourse {
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--radius);
+  border: 1px solid var(--c-border);
+  background: var(--c-bg);
+}
+
+.pastCourse img,
+.pastNoPhoto {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+
+.pastNoPhoto {
+  display: grid;
+  place-items: center;
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--c-primary);
+  background: var(--c-primary-soft);
+}
+
+.pastCourse figcaption {
+  display: flex;
+  flex-direction: column;
+  padding: 0.9rem 1.1rem;
+}
+
+.pastCourse figcaption span {
+  font-size: 0.9rem;
+  color: var(--c-muted);
+}

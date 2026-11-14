@@ -1,5 +1,4 @@
 import { challengeEditions } from './challenge.ts'
-import { courseEditions } from './courses.ts'
 
 export const site = {
   name: 'BEST Louvain-la-Neuve',
@@ -39,13 +38,7 @@ export const navItems: NavItem[] = [
     ],
   },
   { label: 'Hackathon', to: '/hackathon' },
-  {
-    label: 'Summer Course',
-    children: [
-      { label: 'Presentation', to: '/summer-course' },
-      ...courseEditions.map((e) => ({ label: `BCS ${e.year}`, to: `/summer-course/${e.year}` })),
-    ],
-  },
+  { label: 'Summer Course', to: '/summer-course' },
   { label: 'Board', to: '/board' },
   { label: 'Partners', to: '/partners' },
 ]

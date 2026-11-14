@@ -13,16 +13,30 @@ export const partners: Partner[] = [
     id: 'epl',
     name: 'EPL — Louvain School of Engineering',
     url: 'https://uclouvain.be/fr/facultes/epl',
+    logo: 'images/partners/epl.png',
     description: "UCLouvain's engineering faculty, where most of our members study.",
   },
   {
     id: 'westmalle',
     name: 'Westmalle',
     url: 'https://www.trappistwestmalle.be',
+    logo: 'images/partners/westmalle.png',
     description: 'The Trappist brewery of the Abbey of Westmalle, in Belgium.',
   },
-  { id: 'guido', name: 'Guido' },
-  { id: 'the-vex', name: 'The Vex' },
+  {
+    id: 'guido',
+    name: 'Guido',
+    url: 'https://studentpack.guido.be/Default.aspx',
+    logo: 'images/partners/guido.png',
+    description: 'Guido and its Student Pack, made for students in Belgium.',
+  },
+  {
+    id: 'the-vex',
+    name: 'The Vex',
+    url: 'https://thevex.be/centre-louvain-la-neuve/',
+    logo: 'images/partners/the-vex.png',
+    description: 'Virtual reality entertainment centre in Louvain-la-Neuve: VR games, free-roaming experiences and escape rooms.',
+  },
 ]
 
 /** Event sponsors (credited on the events they supported, not listed as main partners). */

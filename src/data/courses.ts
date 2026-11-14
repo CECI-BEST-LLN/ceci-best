@@ -38,7 +38,7 @@ export const courseEditions: CourseEdition[] = [
       { label: 'Code of conduct', href: 'https://drive.google.com/file/d/1f2hGj4DZqcEjm7C4RglfsFeR1W_-RgdS/view?usp=sharing' },
       { label: 'Complaints form', href: 'https://forms.gle/ACFjkCGqKsZmEgKTA' },
     ],
-    photo: 'images/bcs-2025-group.webp',
+    photo: 'images/bcs-2026-group.webp',
   },
   {
     year: '2025',
@@ -46,7 +46,7 @@ export const courseEditions: CourseEdition[] = [
       { label: 'Survival guide 2025', href: 'https://drive.usercontent.google.com/uc?id=1EvOn9JN7ZXf0QQgcJUdpgoOzbXmf_Npl&export=download' },
       { label: 'BCS Schedule 2025', href: 'https://drive.google.com/file/d/1ZbGJuSk6jMpS5cF8FvZq_ubZ5Jiy6vPv/view?usp=download' },
     ],
-    photo: 'images/bcs-group.webp',
+    photo: 'images/bcs-2025-group.webp',
   },
   {
     year: '2024',

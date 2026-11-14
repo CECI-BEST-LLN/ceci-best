@@ -36,9 +36,9 @@ export const challengeEditions: ChallengeEdition[] = [
     participants: 65,
     intro: [
       'On September 30, BEST Louvain-la-Neuve hosted the first round of the Tectonic Hackathon: 65 participants worked in teams to imagine new systems answering the challenge set by Tectonic.',
-      'After a kick-off in the auditorium, teams had four hours to brainstorm, build and refine their ideas before pitching them — and the evening ended with a drink with everyone.',
+      'Louvain-la-Neuve was one of seven cities running the first round on the same evening. After a kick-off in the auditorium, teams had four hours to brainstorm, build and refine their ideas before pitching them, with the best teams across Belgium going on to the final in Ghent for a €10,000 prize — and the evening ended with a drink with everyone.',
     ],
-    links: [],
+    links: [{ label: 'Tectonic', href: 'https://www.tectonicconf.eu/', description: "Belgium's biggest tech and startup event" }],
     sponsors: ['tectonic'],
   },
   {

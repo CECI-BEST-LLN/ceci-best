@@ -83,7 +83,7 @@ export default function ChallengeEdition() {
 
           {challengePhotos(edition.slug).length > 0 && (
             <div style={{ marginTop: '3.5rem' }}>
-              <h3 style={{ marginBottom: '1.25rem' }}>The day in pictures</h3>
+              <h3 style={{ marginBottom: '1.25rem' }}>The event in pictures</h3>
               <Gallery photos={challengePhotos(edition.slug)} alt={edition.title} />
             </div>
           )}

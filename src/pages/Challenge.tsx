@@ -97,7 +97,7 @@ export default function Challenge() {
           </div>
           {latestPhotos.length > 0 && (
             <div className="container" style={{ marginTop: '3.5rem' }}>
-              <h3 style={{ marginBottom: '1.25rem' }}>The day in pictures</h3>
+              <h3 style={{ marginBottom: '1.25rem' }}>The event in pictures</h3>
               <Gallery photos={latestPhotos} alt={latest.title} />
             </div>
           )}

@@ -14,9 +14,10 @@ export const partners: Partner[] = [
   {
     id: 'tectonic',
     name: 'Tectonic',
+    url: 'https://www.tectonicconf.eu/',
     logo: 'images/partners/tectonic.png',
     darkLogo: true,
-    description: 'Belgian startup event — we hosted the first round of the Tectonic Hackathon in Louvain-la-Neuve together.',
+    description: "Belgium's biggest tech and startup event, in Ghent. We hosted the Louvain-la-Neuve first round of the Tectonic Hackathon.",
   },
   {
     id: 'epl',

@@ -1,0 +1,583 @@
+.dig {
+  position: relative;
+  overflow: hidden;
+  animation: digIn 0.8s var(--ease) both;
+}
+
+@keyframes digIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ================================================================ Sky */
+.sky {
+  position: relative;
+  min-height: 92vh;
+  padding: clamp(5rem, 12vw, 8rem) 0 0;
+  background: linear-gradient(#5ec3f2 0%, #8fd6f6 45%, #c7ecfb 80%, #e6f7ff 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+.skyText {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: #0b3a5c;
+}
+
+.skyText h2 {
+  font-size: clamp(2.6rem, 6vw, 4.5rem);
+  color: #062b4d;
+  margin-bottom: 0.75rem;
+}
+
+.skyText p {
+  max-width: 46ch;
+  margin-inline: auto;
+  font-size: 1.15rem;
+}
+
+.skyEyebrow {
+  display: inline-block;
+  margin-bottom: 1rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgb(255 255 255 / 0.6);
+  color: #0a4c86;
+}
+
+.scrollHint {
+  display: inline-block;
+  margin-top: 1rem;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0a4c86;
+  animation: bob 1.6s ease-in-out infinite;
+}
+
+@keyframes bob {
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+.sun {
+  position: absolute;
+  top: 6%;
+  right: 8%;
+  width: clamp(90px, 12vw, 150px);
+}
+
+.sun :global(.sun-rays) {
+  transform-origin: 60px 60px;
+  animation: spin 30s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.cloud {
+  position: absolute;
+  opacity: 0.95;
+  animation: drift linear infinite;
+}
+
+.cloud1 {
+  top: 12%;
+  width: 220px;
+  animation-duration: 70s;
+}
+.cloud2 {
+  top: 30%;
+  width: 150px;
+  animation-duration: 95s;
+  animation-delay: -40s;
+  opacity: 0.8;
+}
+.cloud3 {
+  top: 50%;
+  width: 190px;
+  animation-duration: 80s;
+  animation-delay: -65s;
+}
+
+@keyframes drift {
+  from {
+    transform: translateX(-260px);
+  }
+  to {
+    transform: translateX(calc(100vw + 40px));
+  }
+}
+
+.bird {
+  position: absolute;
+  width: 34px;
+  animation: fly 26s linear infinite;
+}
+
+.bird :global(.bird-wings) {
+  animation: flap 0.5s ease-in-out infinite alternate;
+  transform-origin: 20px 11px;
+}
+
+.bird1 {
+  top: 22%;
+  animation-delay: -4s;
+}
+.bird2 {
+  top: 25%;
+  width: 26px;
+  animation-delay: -5s;
+}
+.bird3 {
+  top: 18%;
+  width: 22px;
+  animation-delay: -6.2s;
+}
+
+@keyframes fly {
+  from {
+    transform: translateX(110vw) translateY(0);
+  }
+  50% {
+    transform: translateX(50vw) translateY(-30px);
+  }
+  to {
+    transform: translateX(-60px) translateY(0);
+  }
+}
+
+@keyframes flap {
+  to {
+    transform: scaleY(0.4);
+  }
+}
+
+/* Grass surface at the bottom of the sky */
+.surface {
+  position: relative;
+  margin-top: auto;
+  height: 210px;
+}
+
+.grass {
+  position: absolute;
+  inset: auto 0 0 0;
+  width: 100%;
+  height: 120px;
+}
+
+.tree {
+  position: absolute;
+  bottom: 60px;
+  left: 4%;
+  width: clamp(120px, 14vw, 180px);
+}
+
+.sign {
+  position: absolute;
+  bottom: 52px;
+  right: 12%;
+  width: clamp(150px, 18vw, 220px);
+  z-index: 1;
+}
+
+.flower {
+  position: absolute;
+  bottom: 54px;
+  height: 64px;
+}
+
+/* ========================================================= Underground */
+.stratum {
+  position: relative;
+  padding: clamp(3rem, 7vw, 5rem) 0;
+}
+
+/* speckled soil texture */
+.texture {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgb(0 0 0 / 0.25) 1.5px, transparent 2.5px),
+    radial-gradient(circle at 70% 60%, rgb(255 255 255 / 0.12) 1px, transparent 2px),
+    radial-gradient(circle at 45% 80%, rgb(0 0 0 / 0.2) 2px, transparent 3px);
+  background-size:
+    46px 46px,
+    31px 31px,
+    67px 67px;
+}
+
+.deco {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  filter: drop-shadow(0 3px 4px rgb(0 0 0 / 0.25));
+}
+
+.deco svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.deco :global(.worm-body) {
+  animation: wiggle 2.4s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes wiggle {
+  50% {
+    transform: scaleX(0.9) translateX(4px);
+  }
+}
+
+.row {
+  position: relative;
+  z-index: 1;
+  display: flex;
+}
+
+.left {
+  justify-content: flex-start;
+}
+.right {
+  justify-content: flex-end;
+}
+.center {
+  justify-content: center;
+}
+
+/* ================================================================ Card */
+.card {
+  width: min(100%, 560px);
+  padding: 1.5rem 1.6rem 1.3rem;
+  border-radius: var(--radius-lg);
+  background: rgb(255 255 255 / 0.94);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 20px 40px -18px rgb(0 0 0 / 0.55);
+  transition: transform 0.35s var(--ease);
+}
+
+.card:hover {
+  transform: translateY(-4px) rotate(-0.3deg);
+}
+
+.cardHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.1rem;
+}
+
+.cardHead h3 {
+  margin: 0.1rem 0 0;
+  font-size: 1.45rem;
+  color: var(--c-accent-dark);
+}
+
+.cardYears {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--c-muted);
+}
+
+.depthTag {
+  flex: none;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: #f3e7d8;
+  color: #7a4a26;
+}
+
+.people {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+  gap: 1rem 0.6rem;
+}
+
+.people li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.15rem;
+  line-height: 1.2;
+}
+
+.people li > :first-child {
+  margin-bottom: 0.4rem;
+  transition: transform 0.25s var(--ease);
+}
+
+.people li:hover > :first-child {
+  transform: scale(1.12) rotate(-4deg);
+}
+
+.people strong {
+  font-size: 0.82rem;
+}
+
+.people small {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--c-primary);
+}
+
+.unknown {
+  color: var(--c-muted);
+  font-style: italic;
+}
+
+.cardLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 1.1rem;
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-decoration: none;
+}
+
+.cardLink svg {
+  width: 1rem;
+  height: 1rem;
+  transition: transform 0.2s var(--ease);
+}
+
+.cardLink:hover svg {
+  transform: translateX(4px);
+}
+
+/* =============================================================== China */
+.china {
+  position: relative;
+  padding: 7rem 0 0;
+  background: linear-gradient(#ffd27a 0%, #ffb98a 35%, #ffd9b0 70%, #fdeccf 100%);
+  overflow: hidden;
+}
+
+.breakthrough {
+  position: absolute;
+  inset: 0 0 auto 0;
+  width: 100%;
+  height: 80px;
+}
+
+.chinaText {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  color: #6b2414;
+}
+
+.chinaText h2 {
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  color: #8a1f12;
+  margin-bottom: 0.5rem;
+}
+
+.chinaText p {
+  max-width: 48ch;
+  margin-inline: auto;
+}
+
+.chinaText .skyEyebrow {
+  color: #8a1f12;
+}
+
+.lantern {
+  position: absolute;
+  top: 70px;
+  width: 44px;
+  z-index: 1;
+  transform-origin: 25px 0;
+  animation: swing 3s ease-in-out infinite alternate;
+}
+
+.lantern1 {
+  left: 6%;
+}
+.lantern2 {
+  left: 16%;
+  top: 60px;
+  width: 34px;
+  animation-delay: -1s;
+}
+.lantern3 {
+  right: 16%;
+  top: 60px;
+  width: 34px;
+  animation-delay: -2s;
+}
+.lantern4 {
+  right: 6%;
+  animation-delay: -0.5s;
+}
+
+@keyframes swing {
+  from {
+    transform: rotate(-6deg);
+  }
+  to {
+    transform: rotate(6deg);
+  }
+}
+
+.chinaLand {
+  position: relative;
+  height: 300px;
+  margin-top: -60px;
+}
+
+.mountains {
+  position: absolute;
+  inset: auto 0 60px 0;
+  width: 100%;
+  height: 220px;
+}
+
+.pagoda {
+  position: absolute;
+  bottom: 80px;
+  right: 8%;
+  width: clamp(110px, 14vw, 170px);
+}
+
+.wall {
+  position: absolute;
+  inset: auto 0 0 0;
+  width: 100%;
+  height: 130px;
+}
+
+.backUp {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 1.5rem 0 2.5rem;
+  margin-top: -1px;
+  background: #4f7d5f;
+}
+
+/* ========================================================= Depth meter */
+.meter {
+  position: fixed;
+  right: clamp(0.75rem, 2vw, 1.5rem);
+  bottom: 1.5rem;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 16px;
+  background: rgb(6 43 77 / 0.88);
+  color: #fff;
+  box-shadow: var(--shadow-md);
+  min-width: 92px;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition:
+    opacity 0.3s,
+    transform 0.3s var(--ease);
+}
+
+.meterOn {
+  opacity: 1;
+  transform: none;
+}
+
+.meterLabel {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 0.6);
+}
+
+.meter strong {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+}
+
+.meterYears {
+  font-size: 0.75rem;
+  color: var(--c-accent);
+}
+
+.meterBar {
+  width: 6px;
+  height: 60px;
+  margin-top: 0.4rem;
+  border-radius: 3px;
+  background: rgb(255 255 255 / 0.15);
+  overflow: hidden;
+}
+
+.meterBar div {
+  width: 100%;
+  background: linear-gradient(var(--c-green), var(--c-accent), #e5484d);
+  transition: height 0.4s var(--ease);
+}
+
+/* ============================================================== Mobile */
+@media (max-width: 720px) {
+  .row,
+  .left,
+  .right {
+    justify-content: center;
+  }
+
+  .deco {
+    opacity: 0.55;
+  }
+
+  .sign {
+    right: 4%;
+  }
+
+  .tree {
+    left: -4%;
+  }
+
+  .lantern2,
+  .lantern3 {
+    display: none;
+  }
+
+  .meter {
+    min-width: 76px;
+    padding: 0.6rem 0.7rem;
+  }
+
+  .meterBar {
+    display: none;
+  }
+}

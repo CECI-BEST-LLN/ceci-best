@@ -491,3 +491,11 @@ a.logoTile:hover {
 .rosterNames li:last-child {
   border-bottom: 0;
 }
+
+.digButton svg {
+  transition: transform 0.3s var(--ease);
+}
+
+.digButton:hover svg {
+  transform: rotate(-25deg) translateY(2px);
+}

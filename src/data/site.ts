@@ -46,12 +46,6 @@ export const navItems: NavItem[] = [
       ...courseEditions.map((e) => ({ label: `BCS ${e.year}`, to: `/summer-course/${e.year}` })),
     ],
   },
-  {
-    label: 'Board',
-    children: [
-      { label: 'Current Board', to: '/board' },
-      { label: 'Previous Boards', to: '/board/previous' },
-    ],
-  },
+  { label: 'Board', to: '/board' },
   { label: 'Partners', to: '/partners' },
 ]

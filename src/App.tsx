@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router'
+import { Navigate, Route, Routes } from 'react-router'
 import Layout from './components/Layout.tsx'
 import Home from './pages/Home.tsx'
 import Best from './pages/Best.tsx'
@@ -9,7 +9,6 @@ import Hackathon from './pages/Hackathon.tsx'
 import SummerCourse from './pages/SummerCourse.tsx'
 import SummerCourseEdition from './pages/SummerCourseEdition.tsx'
 import Board from './pages/Board.tsx'
-import PreviousBoards from './pages/PreviousBoards.tsx'
 import Partners from './pages/Partners.tsx'
 import NotFound from './pages/NotFound.tsx'
 
@@ -26,7 +25,7 @@ export default function App() {
         <Route path="summer-course" element={<SummerCourse />} />
         <Route path="summer-course/:year" element={<SummerCourseEdition />} />
         <Route path="board" element={<Board />} />
-        <Route path="board/previous" element={<PreviousBoards />} />
+        <Route path="board/previous" element={<Navigate to="/board#previous-boards" replace />} />
         <Route path="board/:years" element={<Board />} />
         <Route path="partners" element={<Partners />} />
         <Route path="*" element={<NotFound />} />

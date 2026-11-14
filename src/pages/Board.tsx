@@ -1,17 +1,34 @@
-import { Link, useParams } from 'react-router'
+import { lazy, Suspense, useEffect, useState } from 'react'
+import { Link, useLocation, useParams } from 'react-router'
 import Avatar from '../components/Avatar.tsx'
+import { Shovel } from '../components/dig/Art.tsx'
 import PageHero from '../components/PageHero.tsx'
-import { boardByYears, currentBoard } from '../data/boards/index.ts'
+import { boardByYears, currentBoard, previousBoards } from '../data/boards/index.ts'
 import NotFound from './NotFound.tsx'
 import styles from './Pages.module.css'
+
+// Loaded only when someone starts digging.
+const BoardDig = lazy(() => import('../components/dig/BoardDig.tsx'))
 
 /** /board → current board, /board/2024-2025 → that board. */
 export default function Board() {
   const { years } = useParams()
   const board = years ? boardByYears(years) : currentBoard
-  if (!board) return <NotFound />
-
   const isCurrent = board === currentBoard
+
+  // "/board#previous-boards" opens the dig directly (used by links from other pages).
+  const { hash } = useLocation()
+  const [clicked, setClicked] = useState(false)
+  const digging = clicked || hash === '#previous-boards'
+
+  // Scroll to the dig once it is rendered.
+  useEffect(() => {
+    if (!digging || !isCurrent) return
+    const t = setTimeout(() => document.getElementById('previous-boards')?.scrollIntoView({ behavior: 'smooth' }), 150)
+    return () => clearTimeout(t)
+  }, [digging, isCurrent])
+
+  if (!board) return <NotFound />
 
   return (
     <>
@@ -72,17 +89,25 @@ export default function Board() {
 
           <p className={styles.center} style={{ marginTop: '3rem' }}>
             {isCurrent ? (
-              <Link to="/board/previous" className="btn btn--primary">
-                See previous boards
-              </Link>
+              !digging && (
+                <button type="button" className={`btn btn--primary ${styles.digButton}`} onClick={() => setClicked(true)}>
+                  <Shovel width={20} height={20} /> Show previous boards
+                </button>
+              )
             ) : (
-              <Link to="/board/previous" className="btn btn--ghost" style={{ color: 'var(--c-primary)' }}>
+              <Link to="/board#previous-boards" className="btn btn--ghost" style={{ color: 'var(--c-primary)' }}>
                 ← All previous boards
               </Link>
             )}
           </p>
         </div>
       </section>
+
+      {isCurrent && digging && (
+        <Suspense fallback={null}>
+          <BoardDig boards={previousBoards} />
+        </Suspense>
+      )}
     </>
   )
 }

@@ -1,14 +1,40 @@
+/* Plain page by default; .active turns it into a sky ending on grass. */
 .sky {
   position: relative;
   overflow: hidden;
   padding-top: clamp(3.5rem, 8vw, 5.5rem);
+  background: var(--c-surface);
+}
+
+/* The sky gradient fades in (gradients can't be transitioned directly). */
+.skyBg {
+  position: absolute;
+  inset: 0;
   background: linear-gradient(180deg, #4aa8e0 0%, #7cc3ec 30%, #b4dcf4 65%, #e3f2fb 100%);
+  opacity: 0;
+  transition: opacity 1.2s var(--ease);
+}
+
+.active .skyBg {
+  opacity: 1;
 }
 
 .art {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  animation: fadeIn 1.4s 0.3s var(--ease) both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .sun {
@@ -67,31 +93,49 @@
   z-index: 1;
 }
 
-/* Hero text on the sky */
-.content :global(.eyebrow) {
-  color: #062b4d;
-}
-
+.content :global(.eyebrow),
 .content h1 {
+  transition: color 1s;
+}
+
+.active .content :global(.eyebrow),
+.active .content h1 {
   color: #062b4d;
 }
 
+/* ------------------------------------------------------------ Surface */
 .surface {
   position: relative;
-  margin-top: clamp(3rem, 6vw, 4.5rem);
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  height: 110px;
+  transition: height 0.8s var(--ease);
+}
+
+.active .surface {
   height: 150px;
 }
 
+/* Grass rises from below once the dig starts */
 .grass {
   position: absolute;
   inset: auto 0 0 0;
   width: 100%;
   height: 120px;
+  opacity: 0;
+  transform: translateY(100%);
+  transition:
+    transform 0.9s 0.35s var(--ease),
+    opacity 0.6s 0.35s;
+}
+
+.active .grass {
+  opacity: 1;
+  transform: none;
 }
 
 .surfaceContent {
   position: absolute;
-  inset: auto 0 24px 0;
+  inset: auto 0 32px 0;
   display: flex;
   justify-content: center;
   z-index: 1;

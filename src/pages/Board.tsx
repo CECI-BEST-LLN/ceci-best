@@ -23,12 +23,9 @@ function GroupPhoto({ board, eager = false }: { board: BoardData; eager?: boolea
   if (!board.groupPhoto) return null
   return (
     <img
-      className={`${styles.photo} ${styles.photoWide}`}
-      style={{ marginBottom: '3rem' }}
+      className={styles.groupPhoto}
       src={board.groupPhoto}
       alt={`Board ${board.years}${board.name ? ` — ${board.name}` : ''}`}
-      width={2000}
-      height={1125}
       loading={eager ? 'eager' : 'lazy'}
       decoding="async"
     />
@@ -45,13 +42,15 @@ function CurrentBoard() {
 
   useEffect(() => {
     if (!digging) return
-    const t = setTimeout(() => document.getElementById('previous-boards')?.scrollIntoView({ behavior: 'smooth' }), 200)
+    // Let the sky and grass appear first, then dig down.
+    const t = setTimeout(() => document.getElementById('previous-boards')?.scrollIntoView({ behavior: 'smooth' }), clicked ? 1100 : 200)
     return () => clearTimeout(t)
-  }, [digging])
+  }, [digging, clicked])
 
   return (
     <>
       <BoardSky
+        active={digging}
         surface={
           !digging && (
             <button type="button" className={`btn btn--primary ${styles.digButton}`} onClick={() => setClicked(true)}>

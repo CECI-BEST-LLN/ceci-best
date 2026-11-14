@@ -515,3 +515,14 @@ a.logoTile:hover {
   color: #fff;
   background: #7d5a3e;
 }
+
+/* Group photo: full picture, landscape, not cropped */
+.groupPhoto {
+  display: block;
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  margin: 0 auto 3rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}

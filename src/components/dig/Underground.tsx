@@ -38,11 +38,17 @@ function soilAt(t: number) {
   return `rgb(${mix(0)} ${mix(2)} ${mix(4)})`
 }
 
-/** Roughly exponential depth, ending at the Earth's diameter. */
+/**
+ * Exponential depth scaled to the number of boards: 2 m for the first layer,
+ * the Earth's centre (6,371 km) for the last one underground, then its diameter on the other side.
+ */
 function depthLabel(index: number, total: number) {
   if (index >= total - 1) return '12,742 km'
-  const meters = Math.round(2 * Math.pow(1.7, index))
-  return meters >= 1000 ? `${(meters / 1000).toFixed(1)} km` : `${meters} m`
+  const t = total > 2 ? index / (total - 2) : 0
+  const meters = 2 * Math.pow(6_371_000 / 2, t)
+  if (meters < 1000) return `${Math.round(meters)} m`
+  const km = meters / 1000
+  return km < 10 ? `${km.toFixed(1)} km` : `${Math.round(km).toLocaleString('en-US')} km`
 }
 
 /* ---------------------------------------------------------- decorations */

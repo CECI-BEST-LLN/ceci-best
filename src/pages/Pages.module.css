@@ -569,3 +569,13 @@ a.logoTile:hover {
   font-size: 0.9rem;
   color: var(--c-muted);
 }
+
+/* Event poster (portrait) */
+.poster {
+  justify-self: center;
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}

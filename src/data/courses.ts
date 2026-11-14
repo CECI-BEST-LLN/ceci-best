@@ -28,7 +28,6 @@ export const courseEditions: CourseEdition[] = [
     highlightsIntro: 'From a client brief to working prototypes in a few days — here is some of what the participants designed and built.',
   },
   { year: '2025', photo: 'images/bcs-2025-group.webp' },
-  { year: '2024' },
 ]
 
 // Photos of what participants built: drop them in src/assets/courses/<year>/ (sorted by file name).

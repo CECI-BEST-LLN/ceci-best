@@ -11,6 +11,7 @@ import { partnerById } from '../data/partners.ts'
 import { asset } from '../utils.ts'
 import NotFound from './NotFound.tsx'
 import styles from './Pages.module.css'
+import PartnerLogo from '../components/PartnerLogo.tsx'
 
 export default function ChallengeEdition() {
   const { slug } = useParams()
@@ -94,11 +95,11 @@ export default function ChallengeEdition() {
               {sponsors.map((p) =>
                 p.url ? (
                   <a key={p.id} href={p.url} target="_blank" rel="noreferrer" className={styles.logoTile}>
-                    <img src={asset(p.logo)} alt={p.name} loading="lazy" />
+                    <PartnerLogo partner={p} />
                   </a>
                 ) : (
                   <div key={p.id} className={styles.logoTile}>
-                    <img src={asset(p.logo)} alt={p.name} loading="lazy" />
+                    <PartnerLogo partner={p} />
                   </div>
                 ),
               )}

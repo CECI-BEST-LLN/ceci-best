@@ -3,8 +3,8 @@ import PageHero from '../components/PageHero.tsx'
 import { ExternalIcon } from '../components/Icons.tsx'
 import { pageContacts } from '../data/contacts.ts'
 import { partners } from '../data/partners.ts'
-import { asset } from '../utils.ts'
 import styles from './Pages.module.css'
+import PartnerLogo from '../components/PartnerLogo.tsx'
 
 export default function Partners() {
   return (
@@ -21,7 +21,7 @@ export default function Partners() {
           {partners.map((p) => (
             <article key={p.id} className={`card ${styles.partner}`}>
               <div className={styles.partnerLogo}>
-                <img src={asset(p.logo)} alt={p.name} loading="lazy" />
+                <PartnerLogo partner={p} />
               </div>
               <div>
                 <h3>{p.name}</h3>

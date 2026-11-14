@@ -6,6 +6,7 @@ import { partners } from '../data/partners.ts'
 import { asset } from '../utils.ts'
 import pages from './Pages.module.css'
 import styles from './Home.module.css'
+import PartnerLogo from '../components/PartnerLogo.tsx'
 
 const stats = [
   { value: '1989', label: 'Founded' },
@@ -170,7 +171,7 @@ export default function Home() {
           <div className={pages.logos}>
             {partners.map((p) => (
               <a key={p.id} href={p.url} target="_blank" rel="noreferrer" className={pages.logoTile}>
-                <img src={asset(p.logo)} alt={p.name} loading="lazy" />
+                <PartnerLogo partner={p} />
               </a>
             ))}
           </div>

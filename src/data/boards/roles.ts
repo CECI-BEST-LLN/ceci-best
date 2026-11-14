@@ -14,10 +14,19 @@ export const ROLES = {
   ebec: 'EBEC Coordinator', // old name of "competitions"
   ebecBenelux: 'EBEC Benelux Main Organiser',
   events: 'Event Responsible',
+  rm: 'RM Main Organiser',
   bcs: 'BCS Main Organiser',
+  springCourse: 'Spring Course Responsible',
+  belgianWeekend: 'Belgian Week-End Coordinator',
+  gdSim: 'GD SIM Coordinator',
+  lec: 'LEC Coordinator',
+  pm: 'PM Responsible',
+  studentRelations: 'Student Associations Contact',
   vivaldi: 'Vivaldi',
   it: 'IT Responsible',
   webmaster: 'Webmaster',
+  administrator: 'Administrator',
+  consultant: 'Consultant',
   member: 'Board member', // when the exact position is unknown
 } as const
 

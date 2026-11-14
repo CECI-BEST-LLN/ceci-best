@@ -1,6 +1,5 @@
 import { defineBoard } from './define.ts'
 
-// Source: best-lln.be team page (2015)
 export default defineBoard({
   president: 'Angelo Rodriguez Garcia',
   secretary: 'Matthieu Flamand',
@@ -10,6 +9,7 @@ export default defineBoard({
   pr: 'Justin Leplat',
   ebec: 'Arthur Leveau',
   ebecBenelux: 'Valentin Moëns',
+  rm: ['Dani Manjah', 'Estelle Courtois'],
   bcs: 'Morgane Daras',
   it: 'Thibault Libioulle',
 })

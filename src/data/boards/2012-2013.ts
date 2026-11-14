@@ -1,6 +1,17 @@
 import { defineBoard } from './define.ts'
 
-// Source: photo folder only — positions unknown, add them if you find them.
 export default defineBoard('The estafetters', {
-  member: ['Adeline Michaux', 'Francois Clerens', 'Francois Moureau', 'Louise Meurs', 'Louise Noël', 'Nicolas Nenquin', 'Sebastien Deru', 'Sylvain Duquenne'],
+  president: 'François Clerens',
+  secretary: 'Louise Meurs',
+  treasurer: 'Louise Noël',
+  fr: 'François Moureau',
+  hr: 'Louise Meurs',
+  pr: 'Louise Noël',
+  ebec: 'Nicolas Nenquin',
+  bcs: 'Sébastien Deru',
+  belgianWeekend: 'Adeline Michaux',
+  gdSim: 'Sylvain Duquenne',
+  studentRelations: 'Benjamin Huet',
+  vivaldi: 'François Clerens',
+  it: 'Sébastien Deru',
 })

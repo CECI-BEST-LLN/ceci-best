@@ -1,6 +1,16 @@
 import { defineBoard } from './define.ts'
 
-// Source: photo folder only — positions unknown, add them if you find them.
 export default defineBoard({
-  member: ['Alexandre Tuyaerts', 'Pierre-Adrien Viaene'],
+  president: 'Georges Castin',
+  secretary: 'Julien De Coster',
+  treasurer: 'François Clerens',
+  fr: 'Xabier Gillain',
+  hr: 'Alexandre Tuyaerts',
+  pr: 'Alexandre Tuyaerts',
+  ebec: 'Alexandre Tuyaerts',
+  rm: 'François Clerens',
+  bcs: 'Pierre-Adrien Viaene',
+  studentRelations: 'Benjamin Huet',
+  vivaldi: 'Georges Castin',
+  it: 'Julien De Coster',
 })

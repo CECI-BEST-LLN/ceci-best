@@ -1,6 +1,6 @@
 import { defineBoard } from './define.ts'
 
-// Source: photo folder only — positions unknown, add them if you find them.
 export default defineBoard({
-  member: ['Bruno Guelle', 'Vanessa De Meyer'],
+  president: 'Bruno Guelle',
+  vicePresident: 'Vanessa De Meyer',
 })

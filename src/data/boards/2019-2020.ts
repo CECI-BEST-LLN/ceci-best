@@ -1,8 +1,7 @@
 import { defineBoard } from './define.ts'
 
-// Source: best-lln.be board-2019-2020
 export default defineBoard('The Pongists', {
-  president: 'Roxanne Fritschké',
+  president: 'Roxane Fritschké',
   secretary: 'Jérôme Leclère',
   treasurer: 'Valentin Tack',
   fr: 'Aurore Cappellari',

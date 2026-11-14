@@ -1,6 +1,5 @@
 import { defineBoard } from './define.ts'
 
-// Source: best-lln.be board-2017-2018
 export default defineBoard({
   president: 'Quentin Groulard',
   secretary: 'Xavier Pigeolet',
@@ -9,7 +8,7 @@ export default defineBoard({
   hr: 'Aurore Cappellari',
   pr: 'Noémie Bidoul',
   ebec: 'Julien Dubois',
-  bcs: ['Marie Misson', 'Arnaud Debray'],
+  bcs: ['Arnaud Debray', 'Marie Misson'],
   vivaldi: 'Nicolas Rigot',
   it: 'Florian Felten',
 })

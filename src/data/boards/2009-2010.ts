@@ -1,8 +1,7 @@
 import { defineBoard } from './define.ts'
 
-// Source: best-lln.be team page (2010)
 export default defineBoard({
-  president: 'Thibault Francois',
+  president: 'Thibault François',
   vicePresident: 'Vincent Desmaret',
   secretary: 'Alexandre Tuyaerts',
   treasurer: 'Adrien Meirlaen',

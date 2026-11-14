@@ -1,11 +1,18 @@
 import { Link } from 'react-router'
 import ContactBlock from '../components/ContactBlock.tsx'
 import PageHero from '../components/PageHero.tsx'
-import { ArrowRightIcon, CoffeeIcon, CubeIcon, EuroIcon, GiftIcon, LightbulbIcon, UsersIcon } from '../components/Icons.tsx'
-import { challengeEditions } from '../data/challenge.ts'
+import Gallery from '../components/Gallery.tsx'
+import { ArrowRightIcon, BriefcaseIcon, CalendarIcon, CoffeeIcon, CubeIcon, EuroIcon, GiftIcon, LightbulbIcon, UsersIcon } from '../components/Icons.tsx'
+import PartnerLogo from '../components/PartnerLogo.tsx'
+import { challengeEditions, challengePhotos } from '../data/challenge.ts'
+import { partnerById } from '../data/partners.ts'
 import { pageContacts } from '../data/contacts.ts'
 import { asset } from '../utils.ts'
 import styles from './Pages.module.css'
+
+const latest = challengeEditions[0]
+const latestPhotos = latest ? challengePhotos(latest.slug) : []
+const latestPartner = latest?.casePartner ? latest.sponsors?.map(partnerById).find((p) => p.name === latest.casePartner) : undefined
 
 const formats = [
   {
@@ -41,6 +48,61 @@ export default function Challenge() {
           thinking.
         </p>
       </PageHero>
+
+      {/* ------------------------------------------------- Latest edition */}
+      {latest && (
+        <section className="section section--alt">
+          <div className={`container ${styles.split}`}>
+            <div className={styles.prose}>
+              <span className="eyebrow">Latest edition · {latest.dateLabel}</span>
+              <h2>{latest.title}</h2>
+              {latest.intro.map((p) => (
+                <p key={p}>{p}</p>
+              ))}
+              <dl className={styles.facts} style={{ marginTop: '2rem', marginBottom: '1.5rem' }}>
+                {[
+                  { icon: CalendarIcon, label: 'When', value: latest.dateLabel },
+                  latest.participants && { icon: UsersIcon, label: 'Participants', value: String(latest.participants) },
+                  latest.casePartner && { icon: BriefcaseIcon, label: 'Partner', value: latest.casePartner },
+                ]
+                  .filter((f) => !!f)
+                  .map(({ icon: Icon, label, value }) => (
+                    <div key={label} className={styles.fact}>
+                      <span className="icon-badge">
+                        <Icon />
+                      </span>
+                      <div>
+                        <dt>{label}</dt>
+                        <dd>{value}</dd>
+                      </div>
+                    </div>
+                  ))}
+              </dl>
+              <Link to={`/challenge/${latest.slug}`} className="btn btn--primary">
+                More about this edition <ArrowRightIcon width={18} height={18} />
+              </Link>
+            </div>
+            {latest.poster ? (
+              <img className={styles.poster} src={asset(latest.poster)} alt={`${latest.title} poster`} loading="lazy" decoding="async" />
+            ) : latestPhotos[1] ? (
+              <figure className={styles.featurePhoto}>
+                <img src={latestPhotos[1]} alt={latest.title} loading="lazy" decoding="async" />
+                {latestPartner && (
+                  <figcaption>
+                    In partnership with <PartnerLogo partner={latestPartner} />
+                  </figcaption>
+                )}
+              </figure>
+            ) : null}
+          </div>
+          {latestPhotos.length > 0 && (
+            <div className="container" style={{ marginTop: '3.5rem' }}>
+              <h3 style={{ marginBottom: '1.25rem' }}>The day in pictures</h3>
+              <Gallery photos={latestPhotos} alt={latest.title} />
+            </div>
+          )}
+        </section>
+      )}
 
       <section className="section">
         <div className="container">

@@ -5,7 +5,8 @@ import PageHero from '../components/PageHero.tsx'
 import { BriefcaseIcon, CalendarIcon, ChatIcon, PinIcon } from '../components/Icons.tsx'
 import OrganisingTeam from '../components/OrganisingTeam.tsx'
 import { boardAt } from '../data/boards/index.ts'
-import { challengeEditions } from '../data/challenge.ts'
+import { challengeEditions, challengePhotos } from '../data/challenge.ts'
+import Gallery from '../components/Gallery.tsx'
 import { pageContacts } from '../data/contacts.ts'
 import { partnerById } from '../data/partners.ts'
 import { asset } from '../utils.ts'
@@ -78,6 +79,13 @@ export default function ChallengeEdition() {
               <h3 style={{ marginTop: '3.5rem' }}>Links</h3>
               <LinkList links={edition.links} />
             </>
+          )}
+
+          {challengePhotos(edition.slug).length > 0 && (
+            <div style={{ marginTop: '3.5rem' }}>
+              <h3 style={{ marginBottom: '1.25rem' }}>The day in pictures</h3>
+              <Gallery photos={challengePhotos(edition.slug)} alt={edition.title} />
+            </div>
           )}
 
           <OrganisingTeam board={boardAt(edition.date)} roles={pageContacts.challenge} />

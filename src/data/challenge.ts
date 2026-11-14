@@ -20,10 +20,27 @@ export interface ChallengeEdition {
   poster?: string
   /** Partner ids, see partners.ts */
   sponsors?: string[]
+  participants?: number
 }
 
-// Newest first.
+// Newest first. Photos of an edition: src/assets/challenge/<slug>/ (shown as a gallery).
 export const challengeEditions: ChallengeEdition[] = [
+  {
+    slug: '2026',
+    menuLabel: 'September 2026',
+    title: 'Tectonic Hackathon — First Round',
+    date: '2026-09-30',
+    dateLabel: 'September 30, 2026 · 18:00–22:00',
+    location: 'UCLouvain, Louvain-la-Neuve',
+    casePartner: 'Tectonic',
+    participants: 65,
+    intro: [
+      'On September 30, BEST Louvain-la-Neuve hosted the first round of the Tectonic Hackathon: 65 participants worked in teams to imagine new systems answering the challenge set by Tectonic.',
+      'After a kick-off in the auditorium, teams had four hours to brainstorm, build and refine their ideas before pitching them — and the evening ended with a drink with everyone.',
+    ],
+    links: [],
+    sponsors: ['tectonic'],
+  },
   {
     slug: '2025',
     menuLabel: 'March 2025',
@@ -70,3 +87,13 @@ export const challengeEditions: ChallengeEdition[] = [
     links: [{ label: 'Facebook event', href: 'https://fb.me/e/aC8MkaXUV' }],
   },
 ]
+
+const photoFiles = import.meta.glob<string>('../assets/challenge/*/*.{webp,jpg,png}', { eager: true, import: 'default' })
+
+/** Photos of an edition, sorted by file name. */
+export function challengePhotos(slug: string): string[] {
+  return Object.keys(photoFiles)
+    .filter((k) => k.includes(`/challenge/${slug}/`))
+    .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
+    .map((k) => photoFiles[k])
+}

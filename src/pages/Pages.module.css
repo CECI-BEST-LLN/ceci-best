@@ -579,3 +579,29 @@ a.logoTile:hover {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
 }
+
+/* Featured photo with partner credit */
+.featurePhoto {
+  margin: 0;
+}
+
+.featurePhoto img {
+  width: 100%;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.featurePhoto figcaption {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: var(--c-muted);
+}
+
+.featurePhoto figcaption img {
+  width: auto;
+  height: 34px;
+  box-shadow: none;
+}

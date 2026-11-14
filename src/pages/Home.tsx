@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 import { ArrowRightIcon } from '../components/Icons.tsx'
 import PartnerLogo from '../components/PartnerLogo.tsx'
 import { boards, currentBoard } from '../data/boards/index.ts'
-import { challengeEditions } from '../data/challenge.ts'
+import { challengeEditions, challengePhotos } from '../data/challenge.ts'
 import { courseEditions, courseHighlights } from '../data/courses.ts'
 import { jamPhotos } from '../data/hackathon.ts'
 import { partners } from '../data/partners.ts'
@@ -16,6 +16,7 @@ const BLUE = '#0f6cb6'
 const GREEN = '#78bc2b'
 
 const ec = challengeEditions[0]
+const ecPhotos = ec ? challengePhotos(ec.slug) : []
 const bcs = courseEditions[0]
 const bcsBuilds = bcs ? courseHighlights(bcs.year) : []
 const oldestBoard = boards[boards.length - 1]
@@ -129,23 +130,25 @@ export default function Home() {
           logoAlt="Engineering Challenge"
           eyebrow={`Latest edition · ${ec.dateLabel}`}
           title="Engineering Challenge"
-          facts={['Teams of 4', 'Real company case', 'Professional jury', 'Free']}
+          facts={[ec.participants ? `${ec.participants} participants` : 'Teams of 4', ec.casePartner ? `With ${ec.casePartner}` : 'Real company case', 'Free']}
           to="/challenge"
           cta="Discover the challenge"
           media={
             ec.poster ? (
               <img className={styles.poster} src={asset(ec.poster)} alt={`${ec.title} poster`} loading="lazy" decoding="async" />
+            ) : ecPhotos.length > 0 ? (
+              <Collage photos={[ecPhotos[5], ecPhotos[1], ecPhotos[7]].filter(Boolean)} alt={ec.title} />
             ) : null
           }
         >
           <p>
-            One day to solve a real engineering problem proposed by a company, then pitch the
-            solution to a jury of professionals.
+            One day to solve a real engineering problem in teams, then pitch the solution to a jury
+            of professionals.
             {ec.casePartner && (
               <>
                 {' '}
-                In {ec.slug}, students tackled a case by <strong>{ec.casePartner}</strong> at the{' '}
-                {ec.location.split(',')[0]}.
+                In {ec.slug}, {ec.participants ? `${ec.participants} participants` : 'students'} took
+                on a challenge set with our partner <strong>{ec.casePartner}</strong>.
               </>
             )}
           </p>

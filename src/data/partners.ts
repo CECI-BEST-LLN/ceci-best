@@ -12,6 +12,13 @@ export interface Partner {
 /** Main partners, shown on the Partners page and the home page. */
 export const partners: Partner[] = [
   {
+    id: 'tectonic',
+    name: 'Tectonic',
+    logo: 'images/partners/tectonic.png',
+    darkLogo: true,
+    description: 'Belgian startup event — we hosted the first round of the Tectonic Hackathon in Louvain-la-Neuve together.',
+  },
+  {
     id: 'epl',
     name: 'EPL — Louvain School of Engineering',
     url: 'https://uclouvain.be/fr/facultes/epl',

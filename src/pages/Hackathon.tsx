@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react'
 import ContactBlock from '../components/ContactBlock.tsx'
+import Gallery from '../components/Gallery.tsx'
 import LinkList from '../components/LinkList.tsx'
 import PageHero from '../components/PageHero.tsx'
 import { BriefcaseIcon, CalendarIcon, EuroIcon, GiftIcon, LightbulbIcon, UsersIcon } from '../components/Icons.tsx'
@@ -15,6 +16,11 @@ const perks = [
   { icon: UsersIcon, title: 'Networking', text: 'Build your network and develop career-related skills.' },
   { icon: GiftIcon, title: 'Prizes', text: 'The best teams go home with prizes.' },
 ]
+
+// Game jam photos: every image in src/assets/hackathon/2026/ (sorted by file name).
+const jamPhotos = Object.entries(import.meta.glob<string>('../assets/hackathon/2026/*.{webp,jpg,png}', { eager: true, import: 'default' }))
+  .sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }))
+  .map(([, url]) => url)
 
 const jamFacts = [
   { icon: CalendarIcon, label: 'When', value: 'April 2026' },
@@ -80,6 +86,12 @@ export default function Hackathon() {
             decoding="async"
           />
         </div>
+        {jamPhotos.length > 0 && (
+          <div className="container" style={{ marginTop: '3.5rem' }}>
+            <h3 style={{ marginBottom: '1.25rem' }}>24 hours in pictures</h3>
+            <Gallery photos={jamPhotos} alt="Game Jam 2026 at BEST Louvain-la-Neuve" />
+          </div>
+        )}
       </section>
 
       <section className="section">

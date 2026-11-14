@@ -5,6 +5,8 @@ export interface Partner {
   /** Path inside /public — without a logo, the name is shown instead */
   logo?: string
   description?: string
+  /** Light/white logo: shown on a dark background */
+  darkLogo?: boolean
 }
 
 /** Main partners, shown on the Partners page and the home page. */
@@ -35,6 +37,7 @@ export const partners: Partner[] = [
     name: 'The Vex',
     url: 'https://thevex.be/centre-louvain-la-neuve/',
     logo: 'images/partners/the-vex.png',
+    darkLogo: true,
     description: 'Virtual reality entertainment centre in Louvain-la-Neuve: VR games, free-roaming experiences and escape rooms.',
   },
 ]

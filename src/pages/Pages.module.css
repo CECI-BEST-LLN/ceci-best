@@ -499,3 +499,19 @@ a.logoTile:hover {
 .digButton:hover svg {
   transform: rotate(-25deg) translateY(2px);
 }
+
+.skyIntro {
+  max-width: 680px;
+  margin-bottom: 2.5rem;
+}
+
+.skyIntro :global(.lead) {
+  color: #0a3a63;
+}
+
+.digLoading {
+  padding: 3rem;
+  text-align: center;
+  color: #fff;
+  background: #7d5a3e;
+}

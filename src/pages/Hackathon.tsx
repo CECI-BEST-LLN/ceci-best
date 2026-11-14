@@ -5,6 +5,7 @@ import LinkList from '../components/LinkList.tsx'
 import PageHero from '../components/PageHero.tsx'
 import { BriefcaseIcon, CalendarIcon, EuroIcon, GiftIcon, LightbulbIcon, UsersIcon } from '../components/Icons.tsx'
 import { pageContacts } from '../data/contacts.ts'
+import { jamPhotos } from '../data/hackathon.ts'
 import type { ExternalLink } from '../data/types.ts'
 import { asset } from '../utils.ts'
 import styles from './Pages.module.css'
@@ -16,11 +17,6 @@ const perks = [
   { icon: UsersIcon, title: 'Networking', text: 'Build your network and develop career-related skills.' },
   { icon: GiftIcon, title: 'Prizes', text: 'The best teams go home with prizes.' },
 ]
-
-// Game jam photos: every image in src/assets/hackathon/2026/ (sorted by file name).
-const jamPhotos = Object.entries(import.meta.glob<string>('../assets/hackathon/2026/*.{webp,jpg,png}', { eager: true, import: 'default' }))
-  .sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }))
-  .map(([, url]) => url)
 
 const jamFacts = [
   { icon: CalendarIcon, label: 'When', value: 'April 2026' },

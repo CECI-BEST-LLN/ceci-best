@@ -1,176 +1,252 @@
-import type { CSSProperties } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import { Link } from 'react-router'
 import { ArrowRightIcon } from '../components/Icons.tsx'
-import { currentBoard } from '../data/boards/index.ts'
+import PartnerLogo from '../components/PartnerLogo.tsx'
+import { boards, currentBoard } from '../data/boards/index.ts'
+import { challengeEditions } from '../data/challenge.ts'
+import { courseEditions, courseHighlights } from '../data/courses.ts'
+import { jamPhotos } from '../data/hackathon.ts'
 import { partners } from '../data/partners.ts'
 import { asset } from '../utils.ts'
-import pages from './Pages.module.css'
 import styles from './Home.module.css'
-import PartnerLogo from '../components/PartnerLogo.tsx'
 
-const stats = [
-  { value: '1989', label: 'Founded' },
-  { value: '85', label: 'Local BEST Groups' },
-  { value: '30', label: 'Countries' },
-  { value: '3', label: 'Flagship events in LLN' },
-]
+// BEST colours: one per activity
+const ORANGE = '#f7a823'
+const BLUE = '#0f6cb6'
+const GREEN = '#78bc2b'
 
-const activities = [
-  {
-    logo: 'images/ec-logo.png',
-    title: 'Engineering Challenge',
-    text: 'Students solve an actual challenge proposed by a company — in teams, in one day, in front of a professional jury.',
-    to: '/challenge',
-    cta: 'About EC',
-  },
-  {
-    logo: 'images/best-courses-logo.png',
-    title: 'BEST Courses',
-    text: 'Short courses all across Europe that students from Louvain-la-Neuve can join — and our own summer course in LLN.',
-    to: '/summer-course',
-    cta: 'About BCS',
-  },
-  {
-    logo: 'images/hackathon-logo.png',
-    title: 'Hackathon',
-    text: 'A 24-hour coding competition organised by BEST Louvain-la-Neuve, with companies, mentors and prizes.',
-    to: '/hackathon',
-    cta: 'About Hackathon',
-  },
-]
+const ec = challengeEditions[0]
+const bcs = courseEditions[0]
+const bcsBuilds = bcs ? courseHighlights(bcs.year) : []
+const oldestBoard = boards[boards.length - 1]
+
+/* ------------------------------------------------------------- pieces */
+
+interface EventProps {
+  id: string
+  accent: string
+  logo: string
+  logoAlt: string
+  eyebrow: string
+  title: string
+  children: ReactNode
+  facts: string[]
+  to: string
+  cta: string
+  media: ReactNode
+  reverse?: boolean
+}
+
+function EventFeature({ id, accent, logo, logoAlt, eyebrow, title, children, facts, to, cta, media, reverse }: EventProps) {
+  return (
+    <section id={id} className={styles.event} style={{ '--accent': accent } as CSSProperties}>
+      <div className={`container ${styles.eventInner} ${reverse ? styles.reverse : ''}`}>
+        <div className={styles.eventText}>
+          <img className={styles.eventLogo} src={asset(logo)} alt={logoAlt} loading="lazy" />
+          <span className={styles.eventEyebrow}>{eyebrow}</span>
+          <h2>{title}</h2>
+          <div className={styles.eventBody}>{children}</div>
+          <ul className={styles.chips}>
+            {facts.map((f) => (
+              <li key={f}>{f}</li>
+            ))}
+          </ul>
+          <Link to={to} className={styles.eventCta}>
+            {cta} <ArrowRightIcon width={18} height={18} />
+          </Link>
+        </div>
+        <div className={styles.eventMedia}>{media}</div>
+      </div>
+    </section>
+  )
+}
+
+/** One large photo + two small ones. */
+function Collage({ photos, alt }: { photos: string[]; alt: string }) {
+  const [a, b, c] = photos
+  return (
+    <div className={styles.collage}>
+      {a && <img className={styles.collageMain} src={a} alt={alt} loading="lazy" decoding="async" />}
+      {b && <img src={b} alt={alt} loading="lazy" decoding="async" />}
+      {c && <img src={c} alt={alt} loading="lazy" decoding="async" />}
+    </div>
+  )
+}
+
+/* --------------------------------------------------------------- page */
 
 export default function Home() {
-  // The current board's group photo is the hero background — it changes with the board.
   const heroPhoto = currentBoard.groupPhoto
 
-  const statsList = (
-    <dl className={`${styles.stats} fade-up`} style={{ animationDelay: '200ms' }}>
-      {stats.map((s) => (
-        <div key={s.label} className={styles.stat}>
-          <dt>{s.label}</dt>
-          <dd>{s.value}</dd>
-        </div>
-      ))}
-    </dl>
-  )
+  const made = [
+    ...bcsBuilds.map((src) => ({ src, label: `Prototype · BCS ${bcs?.year}`, color: GREEN })),
+    ...[jamPhotos[4], jamPhotos[6], jamPhotos[7]].filter(Boolean).map((src) => ({ src, label: 'Game made in 24h · Game Jam 2026', color: BLUE })),
+  ]
 
   return (
     <>
-      {/* ---------- Hero ---------- */}
+      {/* ================================================================ Hero */}
       <section
-        className={`${styles.hero} ${heroPhoto ? styles.withPhoto : ''}`}
+        className={styles.hero}
         style={heroPhoto ? ({ '--hero-photo': `url("${heroPhoto}")` } as CSSProperties) : undefined}
       >
-        <div className={styles.glow} aria-hidden="true" />
         <div className={`container ${styles.heroInner}`}>
-          <div className={`${styles.heroText} fade-up`}>
-            <span className={styles.badge}>Board of European Students of Technology</span>
-            <h1>
-              BEST <span className={styles.highlight}>Louvain-la-Neuve</span>
-            </h1>
-            <p className={styles.heroLead}>
-              The local BEST group at UCLouvain. We organise engineering competitions, hackathons and
-              international courses that bring students, universities and companies together.
-            </p>
-            <div className={styles.actions}>
-              <a href="#activities" className="btn btn--accent">
-                Our activities <ArrowRightIcon width={18} height={18} />
-              </a>
-              <Link to="/best" className="btn btn--ghost">
-                What is BEST?
-              </Link>
-            </div>
-          </div>
-          {!heroPhoto && (
-            <div className={`${styles.heroMark} fade-up`} style={{ animationDelay: '120ms' }} aria-hidden="true">
-              <img src={asset('images/best-mark.png')} alt="" />
-            </div>
-          )}
+          <span className={styles.badge}>Board of European Students of Technology</span>
+          <h1>
+            BEST <span>Louvain-la-Neuve</span>
+          </h1>
+          <p className={styles.heroLead}>
+            Engineering challenges, 24-hour game jams and international courses — organised by
+            students, for students, at UCLouvain.
+          </p>
         </div>
 
-        {heroPhoto && (
-          <Link to="/board" className={styles.photoCredit}>
-            Board {currentBoard.years}
-            {currentBoard.name && ` — ${currentBoard.name}`} <ArrowRightIcon width={14} height={14} />
-          </Link>
-        )}
-
-        {!heroPhoto && <div className="container">{statsList}</div>}
+        <div className={`container ${styles.tiles}`}>
+          <a href="#challenge" className={styles.tile} style={{ '--accent': ORANGE } as CSSProperties}>
+            <small>Competition</small>
+            <strong>Engineering Challenge</strong>
+            <ArrowRightIcon />
+          </a>
+          <a href="#hackathon" className={styles.tile} style={{ '--accent': BLUE } as CSSProperties}>
+            <small>24 hours</small>
+            <strong>Hackathon · Game Jam</strong>
+            <ArrowRightIcon />
+          </a>
+          <a href="#summer-course" className={styles.tile} style={{ '--accent': GREEN } as CSSProperties}>
+            <small>International</small>
+            <strong>BEST Course in Summer</strong>
+            <ArrowRightIcon />
+          </a>
+        </div>
       </section>
 
-      {/* With a photo, the stats sit in a band under the hero so faces stay visible. */}
-      {heroPhoto && (
-        <div className={styles.statsBand}>
-          <div className="container">{statsList}</div>
-        </div>
+      {/* ============================================================== Events */}
+      {ec && (
+        <EventFeature
+          id="challenge"
+          accent={ORANGE}
+          logo="images/ec-logo.png"
+          logoAlt="Engineering Challenge"
+          eyebrow={`Latest edition · ${ec.dateLabel}`}
+          title="Engineering Challenge"
+          facts={['Teams of 4', 'Real company case', 'Professional jury', 'Free']}
+          to="/challenge"
+          cta="Discover the challenge"
+          media={
+            ec.poster ? (
+              <img className={styles.poster} src={asset(ec.poster)} alt={`${ec.title} poster`} loading="lazy" decoding="async" />
+            ) : null
+          }
+        >
+          <p>
+            One day to solve a real engineering problem proposed by a company, then pitch the
+            solution to a jury of professionals.
+            {ec.casePartner && (
+              <>
+                {' '}
+                In {ec.slug}, students tackled a case by <strong>{ec.casePartner}</strong> at the{' '}
+                {ec.location.split(',')[0]}.
+              </>
+            )}
+          </p>
+        </EventFeature>
       )}
 
-      {/* ---------- Main activities ---------- */}
-      <section className="section" id="activities">
-        <div className="container">
-          <div className="section__head section__head--center">
-            <span className="eyebrow">Main activities</span>
-            <h2>What we organise</h2>
-            <p className="lead">Three flagship projects, run by students for students.</p>
-          </div>
+      <EventFeature
+        id="hackathon"
+        accent={BLUE}
+        logo="images/hackathon-logo.png"
+        logoAlt="Louvain-la-Neuve Hackathon"
+        eyebrow="Latest edition · April 2026"
+        title="Game Jam — 24h edition"
+        facts={['50+ participants', '24 hours', 'One playable game']}
+        to="/hackathon"
+        cta="See the game jam"
+        media={<Collage photos={[jamPhotos[1], jamPhotos[5], jamPhotos[9]]} alt="Game Jam 2026" />}
+        reverse
+      >
+        <p>
+          Our hackathon turned into a game jam: teams had less than 24 hours to design, code and
+          present a playable game — from the opening briefing to the final demos in front of the
+          whole amphitheatre.
+        </p>
+      </EventFeature>
 
-          <div className={styles.activities}>
-            {activities.map((a) => (
-              <Link key={a.to} to={a.to} className={`card ${styles.activity}`}>
-                <div className={styles.activityLogo}>
-                  <img src={asset(a.logo)} alt={a.title} loading="lazy" />
-                </div>
-                <h3>{a.title}</h3>
-                <p>{a.text}</p>
-                <span className={styles.more}>
-                  {a.cta} <ArrowRightIcon />
-                </span>
-              </Link>
+      {bcs && (
+        <EventFeature
+          id="summer-course"
+          accent={GREEN}
+          logo="images/best-courses-logo.png"
+          logoAlt="BEST Courses"
+          eyebrow={`Latest edition · Summer ${bcs.year}`}
+          title={bcs.theme ?? `BEST Course in Summer ${bcs.year}`}
+          facts={['20 European students', bcs.teacher ?? 'University course', '50 € max']}
+          to="/summer-course"
+          cta="About the summer course"
+          media={<Collage photos={[bcs.photo ? asset(bcs.photo) : '', ...bcsBuilds.slice(0, 2)].filter(Boolean)} alt={`BCS ${bcs.year}`} />}
+        >
+          <p>
+            Every summer we welcome students from all over Europe for a course at UCLouvain. In{' '}
+            {bcs.year}, they went from a client brief to working prototypes — and discovered
+            Belgium along the way.
+          </p>
+        </EventFeature>
+      )}
+
+      {/* ===================================================== Made by students */}
+      {made.length > 0 && (
+        <section className={styles.made}>
+          <div className="container">
+            <span className={styles.madeEyebrow}>Made by students</span>
+            <h2>What participants build with us</h2>
+            <p className={styles.madeLead}>Prototypes from the summer course, games coded in 24 hours.</p>
+          </div>
+          <div className={styles.madeStrip}>
+            {made.map((m) => (
+              <figure key={m.src} className={styles.madeItem} style={{ '--accent': m.color } as CSSProperties}>
+                <img src={m.src} alt={m.label} loading="lazy" decoding="async" />
+                <figcaption>{m.label}</figcaption>
+              </figure>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      {/* ---------- What is BEST ---------- */}
-      <section className="section section--alt">
-        <div className={`container ${pages.split}`}>
+      {/* =============================================================== Board */}
+      <section className="section">
+        <div className={`container ${styles.board}`}>
+          {heroPhoto && <img className={styles.boardPhoto} src={heroPhoto} alt={currentBoard.title} loading="lazy" decoding="async" />}
           <div>
-            <span className="eyebrow">What is BEST?</span>
-            <h2>A European network of technology students</h2>
-            <div className={pages.prose}>
-              <p>
-                BEST is a non-profit, non-political organisation running since <strong>1989</strong>.
-                With <strong>85 Local BEST Groups in 30 countries</strong>, it creates opportunities
-                for European students to communicate, cooperate and exchange.
-              </p>
-            </div>
-            <div className={pages.actions}>
-              <Link to="/best" className="btn btn--primary">
-                More about BEST
+            <span className="eyebrow">Board {currentBoard.years}</span>
+            <h2>{currentBoard.name ? `Meet ${currentBoard.name}` : 'Meet the board'}</h2>
+            <p className="lead">
+              {currentBoard.members.length} students run BEST Louvain-la-Neuve this year — and they
+              are the latest of a long line going back to {oldestBoard?.years.slice(0, 4)}.
+            </p>
+            <div className={styles.boardActions}>
+              <Link to="/board" className="btn btn--primary">
+                Meet the board
+              </Link>
+              <Link to="/board#previous-boards" className={styles.textLink}>
+                Dig through {boards.length} boards <ArrowRightIcon width={18} height={18} />
               </Link>
             </div>
           </div>
-          <div className={styles.markPanel}>
-            <img src={asset('images/logo-best-lln.png')} alt="BEST Louvain-la-Neuve logo" loading="lazy" />
-          </div>
         </div>
       </section>
 
-      {/* ---------- Partners ---------- */}
-      <section className="section">
+      {/* ============================================================ Partners */}
+      <section className={`section section--alt ${styles.partners}`}>
         <div className="container">
-          <div className={styles.rowHead}>
-            <div className="section__head" style={{ marginBottom: 0 }}>
-              <span className="eyebrow">Partners</span>
-              <h2>They support us</h2>
-            </div>
-            <Link to="/partners" className={styles.allLink}>
-              More about our partners <ArrowRightIcon width={18} height={18} />
+          <div className={styles.partnersHead}>
+            <h2>Our partners</h2>
+            <Link to="/partners" className={styles.textLink}>
+              Work with us <ArrowRightIcon width={18} height={18} />
             </Link>
           </div>
-          <div className={pages.logos}>
+          <div className={styles.logos}>
             {partners.map((p) => (
-              <a key={p.id} href={p.url} target="_blank" rel="noreferrer" className={pages.logoTile}>
+              <a key={p.id} href={p.url} target="_blank" rel="noreferrer" className={styles.logoTile} aria-label={p.name}>
                 <PartnerLogo partner={p} />
               </a>
             ))}
@@ -178,27 +254,28 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---------- Louvain-la-Neuve ---------- */}
-      <section className="section section--alt">
-        <div className={`container ${pages.split} ${pages.splitReverse}`}>
-          <div>
-            <span className="eyebrow">Louvain-la-Neuve?</span>
-            <h2>A city built around its university</h2>
-            <div className={pages.prose}>
-              <p>
-                Louvain-la-Neuve is a town in French-speaking Belgium, about 30 km south-east of
-                Brussels. It was built in the 1960s, after the Catholic University of Leuven split in
-                two — its name literally means “the new Leuven”. Today it is home to more than 19,000
-                inhabitants.
-              </p>
+      {/* ============================================================= Network */}
+      <section className="section">
+        <div className={`container ${styles.network}`}>
+          <Link to="/best" className={styles.networkCard}>
+            <img src={asset('images/best-mark.png')} alt="" className={styles.networkMark} />
+            <div>
+              <h3>Part of BEST, since 1989</h3>
+              <p>A European network of 85 local groups in 30 countries, connecting students, universities and companies.</p>
+              <span className={styles.textLink}>
+                What is BEST? <ArrowRightIcon width={16} height={16} />
+              </span>
             </div>
-            <div className={pages.actions}>
-              <Link to="/louvain-la-neuve" className="btn btn--primary">
-                Learn more about the city
-              </Link>
+          </Link>
+          <Link to="/louvain-la-neuve" className={`${styles.networkCard} ${styles.networkPhoto}`} style={{ '--bg': `url("${asset('images/lln-grand-place.webp')}")` } as CSSProperties}>
+            <div>
+              <h3>Based in Louvain-la-Neuve</h3>
+              <p>A city built around its university, 30 km from Brussels.</p>
+              <span className={styles.textLink}>
+                Discover the city <ArrowRightIcon width={16} height={16} />
+              </span>
             </div>
-          </div>
-          <img className={pages.photo} src={asset('images/lln-grand-place.webp')} alt="Grand-Place of Louvain-la-Neuve" loading="lazy" />
+          </Link>
         </div>
       </section>
     </>

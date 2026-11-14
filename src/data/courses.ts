@@ -7,6 +7,8 @@ export interface CourseEdition {
   theme?: string
   teacher?: string
   intro?: string[]
+  /** Text above the participants' projects gallery (photos: src/assets/courses/<year>/) */
+  highlightsIntro?: string
   /** Documents & forms for participants */
   resources: ExternalLink[]
   /** Path inside /public */
@@ -18,6 +20,7 @@ export const courseEditions: CourseEdition[] = [
   {
     year: '2026',
     theme: 'Giving shape to the unknown: Machine design and rapid prototyping',
+    highlightsIntro: 'From a client brief to working prototypes in a few days — here is some of what the participants designed and built.',
     teacher: 'Prof. Renaud Ronsse',
     intro: [
       'This year, 20 international students will analyse the needs of a client, conceptualise a solution and rapidly prototype it — guided by a university-level course taught by Prof. Renaud Ronsse.',
@@ -56,3 +59,13 @@ export const courseEditions: CourseEdition[] = [
     ],
   },
 ]
+
+// Photos of what participants built: drop them in src/assets/courses/<year>/ (sorted by file name).
+const highlightFiles = import.meta.glob<string>('../assets/courses/*/*.{webp,jpg,jpeg,png}', { eager: true, import: 'default' })
+
+export function courseHighlights(year: string): string[] {
+  return Object.keys(highlightFiles)
+    .filter((k) => k.includes(`/courses/${year}/`))
+    .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
+    .map((k) => highlightFiles[k])
+}

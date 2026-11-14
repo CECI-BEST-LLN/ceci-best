@@ -5,7 +5,8 @@ import PageHero from '../components/PageHero.tsx'
 import OrganisingTeam from '../components/OrganisingTeam.tsx'
 import { boardAt } from '../data/boards/index.ts'
 import { pageContacts } from '../data/contacts.ts'
-import { courseEditions } from '../data/courses.ts'
+import { courseEditions, courseHighlights } from '../data/courses.ts'
+import Gallery from '../components/Gallery.tsx'
 import { asset } from '../utils.ts'
 import NotFound from './NotFound.tsx'
 import styles from './Pages.module.css'
@@ -14,6 +15,7 @@ export default function SummerCourseEdition() {
   const { year } = useParams()
   const edition = courseEditions.find((e) => e.year === year)
   if (!edition) return <NotFound />
+  const highlights = courseHighlights(edition.year)
 
   return (
     <>
@@ -50,7 +52,20 @@ export default function SummerCourseEdition() {
         </section>
       )}
 
-      <section className="section" style={edition.intro || edition.photo ? { paddingTop: 0 } : undefined}>
+      {highlights.length > 0 && (
+        <section className="section section--alt">
+          <div className="container">
+            <div className="section__head">
+              <span className="eyebrow">Highlights</span>
+              <h2>What the participants built</h2>
+              {edition.highlightsIntro && <p className="lead">{edition.highlightsIntro}</p>}
+            </div>
+            <Gallery photos={highlights} alt={`Prototype built by BCS ${edition.year} participants`} />
+          </div>
+        </section>
+      )}
+
+      <section className="section" style={(edition.intro || edition.photo) && highlights.length === 0 ? { paddingTop: 0 } : undefined}>
         <div className="container">
           <div className="section__head">
             <span className="eyebrow">Participant corner</span>

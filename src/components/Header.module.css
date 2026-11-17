@@ -203,6 +203,7 @@
     transform: translateY(-8px);
     opacity: 0;
     visibility: hidden;
+    pointer-events: none; /* belt and braces: a closed menu never catches taps */
     transition:
       transform 0.3s var(--ease),
       opacity 0.2s,
@@ -213,6 +214,7 @@
     transform: none;
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
   }
 
   .menu {
@@ -249,7 +251,8 @@
   .hasDropdown:focus-within .dropdown {
     position: static;
     opacity: 1;
-    visibility: visible;
+    /* inherit (not visible!) so the submenu stays hidden — and unclickable — while the menu is closed */
+    visibility: inherit;
     transform: none;
     min-width: 0;
     padding: 0 0 0 0.5rem;

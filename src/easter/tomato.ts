@@ -136,7 +136,9 @@ function sprite(src: string, size: number, x: number, y: number) {
   return img
 }
 
-const FLIGHT_MS = 480
+const FLIGHT_MS = 320
+const START_SCALE = 9 // size near the camera
+const STEPS = 10
 
 /** Throw a tomato at the clicked point, as if thrown by the person behind the screen. */
 export function throwTomato(e: ReactMouseEvent) {
@@ -153,15 +155,19 @@ export function throwTomato(e: ReactMouseEvent) {
 
   const tomato = sprite(TOMATO, 70, x, y)
   const spin = (Math.random() > 0.5 ? 1 : -1) * (200 + Math.random() * 160)
-  tomato.animate(
-    [
-      { transform: `translate(${dx}px, ${dy}px) scale(9) rotate(0deg)`, filter: 'blur(14px)', opacity: 0.9 },
-      { transform: `translate(${dx * 0.35}px, ${dy * 0.35 - 40}px) scale(2.6) rotate(${spin * 0.6}deg)`, filter: 'blur(5px)', opacity: 1, offset: 0.45 },
-      { transform: `translate(0, 0) scale(1) rotate(${spin}deg)`, filter: 'blur(0px)', opacity: 1 },
-    ],
-    // ease-out: fast near the camera, slowing down as it gets "far"
-    { duration: FLIGHT_MS, easing: 'cubic-bezier(0.2, 0.7, 0.4, 1)' },
-  ).onfinish = () => {
+  // Constant speed away from the camera: apparent size = 1 / distance, so it shrinks fast at
+  // first and less later — real perspective, no artificial easing.
+  const frames = Array.from({ length: STEPS + 1 }, (_, i) => {
+    const t = i / STEPS
+    const scale = START_SCALE / (1 + (START_SCALE - 1) * t)
+    const k = (scale - 1) / (START_SCALE - 1) // 1 at the camera → 0 on the photo
+    return {
+      offset: t,
+      transform: `translate(${dx * k}px, ${dy * k}px) scale(${scale}) rotate(${spin * t}deg)`,
+      filter: `blur(${(14 * k).toFixed(1)}px)`,
+    }
+  })
+  tomato.animate(frames, { duration: FLIGHT_MS, easing: 'linear' }).onfinish = () => {
     tomato.remove()
     if (SPLAT_SOUND) {
       const a = new Audio(SPLAT_SOUND)

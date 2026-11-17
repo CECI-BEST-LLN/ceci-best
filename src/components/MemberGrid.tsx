@@ -1,3 +1,4 @@
+import { isTomatoTarget, throwTomato } from '../easter/tomato.ts'
 import type { BoardMember } from '../data/boards/index.ts'
 import Avatar from './Avatar.tsx'
 import styles from './MemberGrid.module.css'
@@ -13,7 +14,7 @@ export default function MemberGrid({ members, showEmails = false }: Props) {
   return (
     <div className={styles.grid}>
       {members.map((m) => (
-        <article key={m.slug} className={styles.member}>
+        <article key={m.slug} className={styles.member} onClick={isTomatoTarget(m.slug) ? throwTomato : undefined}>
           <div className={styles.photoWrap}>
             {m.photo ? (
               <img className={styles.photo} src={m.photo} alt={m.name} width={400} height={450} loading="lazy" decoding="async" />

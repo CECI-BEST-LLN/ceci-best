@@ -1,3 +1,4 @@
+import { isTomatoTarget, throwTomato } from '../easter/tomato.ts'
 import { Link } from 'react-router'
 import { currentBoard, membersWithRoles, type Board, type Role } from '../data/boards/index.ts'
 import Avatar from './Avatar.tsx'
@@ -25,7 +26,7 @@ export default function OrganisingTeam({ board, roles }: Props) {
       </p>
       <ul className={styles.list}>
         {members.map((m) => (
-          <li key={m.slug}>
+          <li key={m.slug} onClick={isTomatoTarget(m.slug) ? throwTomato : undefined}>
             <Avatar name={m.name} photo={m.photo} size={44} />
             <span>
               <strong>{m.name}</strong>

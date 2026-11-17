@@ -82,18 +82,10 @@ export function throwTomato(e: ReactMouseEvent) {
       void a.play().catch(() => {})
     }
 
-    // Cartoon impact: one hard squash, then it just sticks there, dead still, and vanishes.
+    // Impact: the splat just appears, sticks there dead still, then vanishes.
     const splat = sprite(SPLAT, 130, x, y)
     const rot = Math.round(Math.random() * 360)
     splat.style.transform = `rotate(${rot}deg)`
-    splat.animate(
-      [
-        { transform: `rotate(${rot}deg) scale(1.6, 0.45)` },
-        { transform: `rotate(${rot}deg) scale(0.9, 1.15)`, offset: 0.5 },
-        { transform: `rotate(${rot}deg) scale(1, 1)` },
-      ],
-      { duration: 140, easing: 'steps(3, end)' },
-    )
     setTimeout(() => {
       splat.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 250, fill: 'forwards' }).onfinish = () => splat.remove()
     }, 4000)

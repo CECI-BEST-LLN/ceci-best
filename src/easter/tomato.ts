@@ -16,6 +16,10 @@ const TOMATO =
   svg('<circle cx="50" cy="56" r="38" fill="#e53935"/><path d="M50 22l-14 2 10 6-8 10 12-6 12 6-8-10 10-6z" fill="#43a047"/>')
 const SPLAT = file('tomato-splat') ?? svg('<circle cx="50" cy="50" r="40" fill="#d32f2f"/>')
 
+// Optional impact sound: src/assets/easter/splat.(mp3|ogg|wav). Falls back to a generated sound.
+const sounds = import.meta.glob<string>('../assets/easter/*.{mp3,ogg,wav}', { eager: true, import: 'default', query: '?url' })
+const SPLAT_SOUND = Object.entries(sounds).find(([k]) => /\/splat\.(mp3|ogg|wav)$/.test(k))?.[1]
+
 const targets = new Set(tomatoTargets.map(slugify))
 export const isTomatoTarget = (slug: string) => targets.has(slug)
 
@@ -159,18 +163,26 @@ export function throwTomato(e: ReactMouseEvent) {
     { duration: FLIGHT_MS, easing: 'cubic-bezier(0.2, 0.7, 0.4, 1)' },
   ).onfinish = () => {
     tomato.remove()
-    if (ctx) playSplat(ctx)
+    if (SPLAT_SOUND) {
+      const a = new Audio(SPLAT_SOUND)
+      a.volume = 0.8
+      void a.play().catch(() => {})
+    } else if (ctx) playSplat(ctx)
+
+    // Cartoon impact: one hard squash, then it just sticks there, dead still, and vanishes.
     const splat = sprite(SPLAT, 130, x, y)
     const rot = Math.round(Math.random() * 360)
+    splat.style.transform = `rotate(${rot}deg)`
     splat.animate(
       [
-        { transform: `rotate(${rot}deg) scale(0.3)` },
-        { transform: `rotate(${rot}deg) scale(1.2)`, offset: 0.12 },
-        { transform: `rotate(${rot}deg) scale(1)`, offset: 0.22 },
-        { transform: `rotate(${rot}deg) scale(1) translateY(8px)`, opacity: 1, offset: 0.8 },
-        { transform: `rotate(${rot}deg) scale(1) translateY(18px)`, opacity: 0 },
+        { transform: `rotate(${rot}deg) scale(1.6, 0.45)` },
+        { transform: `rotate(${rot}deg) scale(0.9, 1.15)`, offset: 0.5 },
+        { transform: `rotate(${rot}deg) scale(1, 1)` },
       ],
-      { duration: 3400, easing: 'ease-out' },
-    ).onfinish = () => splat.remove()
+      { duration: 140, easing: 'steps(3, end)' },
+    )
+    setTimeout(() => {
+      splat.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 250, fill: 'forwards' }).onfinish = () => splat.remove()
+    }, 4000)
   }
 }

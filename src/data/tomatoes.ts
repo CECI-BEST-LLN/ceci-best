@@ -4,5 +4,6 @@
 //   src/assets/easter/tomato.webp (or .png)         the whole tomato (flying)
 //   src/assets/easter/tomato-splat.webp (or .png)   the splattered tomato (on impact)
 // Transparent PNGs, roughly square, ~200-400px.
+// Sound (optional): src/assets/easter/splat.mp3 — played on impact.
 
 export const tomatoTargets: string[] = ['Cédric Ponsard', 'Mateo Desmette', 'Jacques Hogge']

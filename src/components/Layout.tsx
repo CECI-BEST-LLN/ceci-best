@@ -4,12 +4,13 @@ import Header from './Header.tsx'
 import Footer from './Footer.tsx'
 
 export default function Layout() {
-  const { pathname } = useLocation()
+  const { pathname, hash } = useLocation()
 
-  // Scroll back to top when navigating to another page.
+  // Scroll back to top when navigating to another page — unless the link targets a section
+  // (#anchor): the page itself scrolls there (e.g. /board#previous-boards).
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' })
-  }, [pathname])
+    if (!hash) window.scrollTo({ top: 0, behavior: 'instant' })
+  }, [pathname, hash])
 
   return (
     <>

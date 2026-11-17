@@ -42,8 +42,14 @@ function CurrentBoard() {
 
   useEffect(() => {
     if (!digging) return
-    // Let the sky and grass appear first, then dig down.
-    const t = setTimeout(() => document.getElementById('previous-boards')?.scrollIntoView({ behavior: 'smooth' }), clicked ? 1100 : 200)
+    // Let the sky and grass appear first, then dig down. The dig is lazy-loaded, so wait until
+    // it is actually in the page (up to ~5 s on a slow phone connection).
+    let tries = 0
+    let t = setTimeout(function scroll() {
+      const dig = document.getElementById('previous-boards')
+      if (dig) dig.scrollIntoView({ behavior: clicked ? 'smooth' : 'instant' })
+      else if (++tries < 50) t = setTimeout(scroll, 100)
+    }, clicked ? 1100 : 0)
     return () => clearTimeout(t)
   }, [digging, clicked])
 

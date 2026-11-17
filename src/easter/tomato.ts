@@ -45,9 +45,10 @@ function sprite(src: string, size: number, x: number, y: number) {
   return img
 }
 
-const FLIGHT_MS = 320
+const FLIGHT_MS = 650 // a lob takes a bit longer
+const ARC = 0.45 // height of the lob, as a share of the screen height
 const START_SCALE = 9 // size near the camera
-const STEPS = 10
+const STEPS = 16
 
 /** Throw a tomato at the clicked point, as if thrown by the person behind the screen. */
 export function throwTomato(e: ReactMouseEvent) {
@@ -68,9 +69,10 @@ export function throwTomato(e: ReactMouseEvent) {
     const t = i / STEPS
     const scale = START_SCALE / (1 + (START_SCALE - 1) * t)
     const k = (scale - 1) / (START_SCALE - 1) // 1 at the camera → 0 on the photo
+    const lift = window.innerHeight * ARC * 4 * t * (1 - t) // parabola: up, then down onto the target
     return {
       offset: t,
-      transform: `translate(${dx * k}px, ${dy * k}px) scale(${scale}) rotate(${spin * t}deg)`,
+      transform: `translate(${dx * k}px, ${dy * k - lift}px) scale(${scale}) rotate(${spin * t}deg)`,
       filter: `blur(${(14 * k).toFixed(1)}px)`,
     }
   })

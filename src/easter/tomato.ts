@@ -1,6 +1,6 @@
 // Tomato-throwing easter egg. Plain DOM + Web Animations + Web Audio: no React state needed.
 // The tomato is thrown "from the camera": huge and blurry at first, it shrinks and sharpens
-// as it flies into the screen, then splats with a silly sound.
+// as it flies into the screen, then splats (with the splat sound).
 import type { MouseEvent as ReactMouseEvent } from 'react'
 import { slugify } from '../data/boards/index.ts'
 import { tomatoTargets } from '../data/tomatoes.ts'
@@ -16,103 +16,12 @@ const TOMATO =
   svg('<circle cx="50" cy="56" r="38" fill="#e53935"/><path d="M50 22l-14 2 10 6-8 10 12-6 12 6-8-10 10-6z" fill="#43a047"/>')
 const SPLAT = file('tomato-splat') ?? svg('<circle cx="50" cy="50" r="40" fill="#d32f2f"/>')
 
-// Optional impact sound: src/assets/easter/splat.(mp3|ogg|wav). Falls back to a generated sound.
+// Impact sound: src/assets/easter/splat.(mp3|ogg|wav). No file = silent.
 const sounds = import.meta.glob<string>('../assets/easter/*.{mp3,ogg,wav}', { eager: true, import: 'default', query: '?url' })
 const SPLAT_SOUND = Object.entries(sounds).find(([k]) => /\/splat\.(mp3|ogg|wav)$/.test(k))?.[1]
 
 const targets = new Set(tomatoTargets.map(slugify))
 export const isTomatoTarget = (slug: string) => targets.has(slug)
-
-/* ---------------------------------------------------------------- sound */
-
-let audio: AudioContext | undefined
-
-function noise(ctx: AudioContext, seconds: number) {
-  const buffer = ctx.createBuffer(1, ctx.sampleRate * seconds, ctx.sampleRate)
-  const data = buffer.getChannelData(0)
-  for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1
-  const src = ctx.createBufferSource()
-  src.buffer = buffer
-  return src
-}
-
-/** Short "whoosh" when the tomato is thrown. */
-function playWhoosh(ctx: AudioContext, duration: number) {
-  const t = ctx.currentTime
-  const src = noise(ctx, duration)
-  const band = ctx.createBiquadFilter()
-  band.type = 'bandpass'
-  band.Q.value = 1.2
-  band.frequency.setValueAtTime(400, t)
-  band.frequency.exponentialRampToValueAtTime(2500, t + duration)
-  const gain = ctx.createGain()
-  gain.gain.setValueAtTime(0.0001, t)
-  gain.gain.exponentialRampToValueAtTime(0.25, t + duration * 0.6)
-  gain.gain.exponentialRampToValueAtTime(0.0001, t + duration)
-  src.connect(band).connect(gain).connect(ctx.destination)
-  src.start(t)
-}
-
-/** Wet "SPLOTCH" + a dumb descending "bwoooop". */
-function playSplat(ctx: AudioContext) {
-  const t = ctx.currentTime
-
-  // squelch: low-passed noise burst
-  const src = noise(ctx, 0.35)
-  const low = ctx.createBiquadFilter()
-  low.type = 'lowpass'
-  low.frequency.setValueAtTime(1800, t)
-  low.frequency.exponentialRampToValueAtTime(200, t + 0.3)
-  const g1 = ctx.createGain()
-  g1.gain.setValueAtTime(0.9, t)
-  g1.gain.exponentialRampToValueAtTime(0.0001, t + 0.32)
-  src.connect(low).connect(g1).connect(ctx.destination)
-  src.start(t)
-
-  // thump
-  const thump = ctx.createOscillator()
-  thump.frequency.setValueAtTime(140, t)
-  thump.frequency.exponentialRampToValueAtTime(45, t + 0.15)
-  const g2 = ctx.createGain()
-  g2.gain.setValueAtTime(0.7, t)
-  g2.gain.exponentialRampToValueAtTime(0.0001, t + 0.18)
-  thump.connect(g2).connect(ctx.destination)
-  thump.start(t)
-  thump.stop(t + 0.2)
-
-  // the silly part: a wobbly sliding "bwoooop"
-  const slide = ctx.createOscillator()
-  slide.type = 'square'
-  slide.frequency.setValueAtTime(620, t + 0.08)
-  slide.frequency.exponentialRampToValueAtTime(110, t + 0.7)
-  const wobble = ctx.createOscillator()
-  wobble.frequency.value = 14
-  const wobbleDepth = ctx.createGain()
-  wobbleDepth.gain.value = 25
-  wobble.connect(wobbleDepth).connect(slide.frequency)
-  const soft = ctx.createBiquadFilter()
-  soft.type = 'lowpass'
-  soft.frequency.value = 1400
-  const g3 = ctx.createGain()
-  g3.gain.setValueAtTime(0.0001, t + 0.08)
-  g3.gain.exponentialRampToValueAtTime(0.12, t + 0.12)
-  g3.gain.exponentialRampToValueAtTime(0.0001, t + 0.72)
-  slide.connect(soft).connect(g3).connect(ctx.destination)
-  slide.start(t + 0.08)
-  wobble.start(t + 0.08)
-  slide.stop(t + 0.75)
-  wobble.stop(t + 0.75)
-}
-
-function sound(): AudioContext | undefined {
-  try {
-    audio ??= new AudioContext()
-    if (audio.state === 'suspended') void audio.resume()
-    return audio
-  } catch {
-    return undefined // no Web Audio: silent tomatoes
-  }
-}
 
 /* ------------------------------------------------------------- visuals */
 
@@ -144,8 +53,6 @@ const STEPS = 10
 export function throwTomato(e: ReactMouseEvent) {
   const x = e.pageX
   const y = e.pageY
-  const ctx = sound()
-  if (ctx) playWhoosh(ctx, FLIGHT_MS / 1000)
 
   // Start near the viewer: lower-centre of the screen, slightly random.
   const fromX = window.scrollX + window.innerWidth * (0.5 + (Math.random() - 0.5) * 0.4)
@@ -173,7 +80,7 @@ export function throwTomato(e: ReactMouseEvent) {
       const a = new Audio(SPLAT_SOUND)
       a.volume = 0.8
       void a.play().catch(() => {})
-    } else if (ctx) playSplat(ctx)
+    }
 
     // Cartoon impact: one hard squash, then it just sticks there, dead still, and vanishes.
     const splat = sprite(SPLAT, 130, x, y)

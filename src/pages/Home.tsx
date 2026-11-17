@@ -183,7 +183,7 @@ export default function Home() {
           logoAlt="BEST Courses"
           eyebrow={`Latest edition · Summer ${bcs.year}`}
           title={bcs.theme ?? `BEST Course in Summer ${bcs.year}`}
-          facts={['20 European students', bcs.teacher ?? 'University course', '50 € max']}
+          facts={['20 European students', bcs.teacher ?? 'University course', '90 € max']}
           to="/summer-course"
           cta="About the summer course"
           media={<Collage photos={[bcs.photo ? asset(bcs.photo) : '', ...bcsBuilds.slice(0, 2)].filter(Boolean)} alt={`BCS ${bcs.year}`} />}

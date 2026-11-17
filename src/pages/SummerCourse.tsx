@@ -10,7 +10,7 @@ import styles from './Pages.module.css'
 const facts = [
   { icon: CalendarIcon, label: 'Duration', value: '9 to 14 days' },
   { icon: SchoolIcon, label: 'Built around', value: 'A university course' },
-  { icon: EuroIcon, label: 'Fee', value: '50 € maximum' },
+  { icon: EuroIcon, label: 'Fee', value: '90 € maximum' },
   { icon: GlobeIcon, label: 'Participants', value: 'Students from all over Europe' },
 ]
 
@@ -57,7 +57,7 @@ export default function SummerCourse() {
               Local BEST Groups organise courses all year round.
             </p>
             <p>
-              The fee is kept very low — <strong>50 euros maximum</strong> — so that money never
+              The fee is kept very low — <strong>90 euros maximum</strong> — so that money never
               stops students with tight budgets from taking part. Beyond the course itself, it is a
               chance to discover European cultures, cities and universities, and to meet students
               from every background.
